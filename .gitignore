@@ -1,0 +1,36 @@
+# Python-related files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyz
+*.pyw
+*.pyi
+*.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+.env.bak/
+
+# Package distribution
+dist/
+build/
+*.egg-info/
+
+# Development and debugging tools
+.idea/
+.vscode/
+*.swp
+*~
+*.bak
+*.tmp
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+*.log
+*.cache
+*.out
