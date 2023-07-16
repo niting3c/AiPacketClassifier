@@ -11,10 +11,9 @@ def generate_first_prompt(packet_count):
     """
     return """
         You are an advanced AI that detects malicious requests by parsing the various payloads of the protocols.
-        Please analyze the {0} packets provided in the follow-up prompts 
-        and determine if each packet is malicious or not. 
+        Please analyze the {0} packets payload provided in the follow-up prompts 
+        and determine if it is malicious or not. 
         Packet Payload if bigger, will be split into chunks and sent for analysis.
-        Consider examining the payload, headers, and protocols in a step-by-step analysis.
         Note that an empty payload is not considered malicious.
         As an AI classifier specialized in detecting malicious activity or network attacks, 
         you should carefully examine the payload and follow a step-by-step analysis.
@@ -23,7 +22,7 @@ def generate_first_prompt(packet_count):
     """.format(packet_count)
 
 
-def generate_prompt(protocol, payload):
+def generate_prompt(protocol, payload, index):
     """
     minimum 16 tokens
     Generates a prompt for analyzing a packet with the given protocol and payload.
@@ -36,12 +35,13 @@ def generate_prompt(protocol, payload):
         str: The generated prompt.
     """
     return """
+    Packet: {2}
     Protocol: {0}
     Payload: {1}
-    """.format(protocol, payload)
+    """.format(protocol, payload, index)
 
 
-def generate_part_prompt(protocol, payload, count, total):
+def generate_part_prompt(protocol, payload, count, total, index):
     """
     50 tokens minimum
     Generates a prompt for analyzing a part of a packet's payload.
@@ -57,10 +57,11 @@ def generate_part_prompt(protocol, payload, count, total):
     """
     return """
     As the payload is large, we will split the payload into {3} parts.
-    Here is part {2} of the payload:
+    Here is part {2} of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
     Protocol: {0}
     Payload: {1}
-    """.format(protocol, payload, count, total)
+    Packet: {4}
+    """.format(protocol, payload, count, total, index)
 
 
 def generate_part_prompt_final():
@@ -72,7 +73,7 @@ def generate_part_prompt_final():
     """
     return """
     All the parts of the payload in the packet are provided, please analyze them as a whole
-    and categorize whether they are malicious or not.
+    and categorize whether they are malicious or not. Do not provide explanation, Only respond if its Malicious or Not-Malicious.
     """
 
 

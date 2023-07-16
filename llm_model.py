@@ -35,7 +35,7 @@ def process_string_input(input_string, model_entry, outputfile):
         print(f"Error processing string input: {e}")
 
 
-def prepare_input_strings(protocol, payload, model_entry):
+def prepare_input_strings(protocol, payload, model_entry, index):
     """
     Sends the protocol and payload to the model for classification.
 
@@ -47,7 +47,7 @@ def prepare_input_strings(protocol, payload, model_entry):
     try:
         if payload is None:
             print("no payload found")
-            model_entry["str"].append(generate_prompt(protocol, ""))
+            model_entry["str"].append(generate_prompt(protocol, "", index))
             return
         batch_size = model_entry["context"]
         num_batches = len(payload) // batch_size
@@ -61,9 +61,9 @@ def prepare_input_strings(protocol, payload, model_entry):
                     generate_part_prompt(protocol,
                                          payload[start_index:end_index],
                                          i + 1,
-                                         num_batches))
+                                         num_batches, index))
             model_entry["str"].append(generate_part_prompt_final())
         else:
-            model_entry["str"].append(generate_prompt(protocol, payload))
+            model_entry["str"].append(generate_prompt(protocol, payload, index))
     except Exception as e:
         print(f"Error sending to model: {e}")

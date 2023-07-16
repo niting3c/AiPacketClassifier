@@ -1,3 +1,4 @@
+import json
 import os
 
 from scapy.all import rdpcap
@@ -43,9 +44,9 @@ def analyse_packet(file_path, model_entry):
         # Create a path for the result file
         model_entry["str"] = []
         packets = rdpcap(file_path)
-        for packet in packets:
+        for i, packet in enumerate(packets):
             protocol, payload = extract_payload_protocol(packet)
-            prepare_input_strings(protocol, payload, model_entry)
+            prepare_input_strings(protocol, payload, model_entry, i)
         return create_result_file_path(file_path, '.txt', "./output/", model_entry["suffix"])
     except Exception as e:
         print(f"Error analysing packet: {e}")
@@ -97,6 +98,8 @@ def send_to_llm_model(filepath, model_entry):
             case ModelType.ZERO_SHOT:
                 process_zero_shot_model(model_entry, output_file)
             case _:
+                model_entry["str"].insert(0, PromptMaker.generate_first_prompt(len(model_entry["str"])))
+                model_entry["str"].append(PromptMaker.generate_text_chat_last_prompt())
                 process_other_model(model_entry, output_file, model_type)
         output_file.flush()
 
@@ -120,9 +123,12 @@ def process_conversational_model(model_entry, output_file):
 
 
 def process_zero_shot_model(model_entry, output_file):
-    print(f"Using ZERO_SHOT model:{model_entry['model_name']}", file=output_file)
+    print(f"Using ZERO_SHOT model:{model_entry['model_name']}")
     result = llm_model.pipe_response_generate_with_classifier(model_entry["model"], model_entry["str"])
-    print(f"Result from the packet file:{str(result)}\n", file=output_file)
+    for entry in result:
+        entry["scores"] = [score * 100 for score in entry["scores"]]
+    json_result = json.dumps(result, indent=4)  # 4 spaces indentation for better visibility.
+    print(json_result, file=output_file)
 
 
 def process_other_model(model_entry, output_file, model_type):
@@ -131,10 +137,7 @@ def process_other_model(model_entry, output_file, model_type):
         print("----" * 40, file=output_file)
         print(entry + "\n\n", file=output_file)
         result = llm_model.pipe_response_generate_without_classifier(model_entry["model"], entry)
-        if model_type == ModelType.ZERO_SHOT:
-            print(f"Result from the packet file:{str(result['scores'])}", file=output_file)
-        else:
-            print(f"Result from the packet file:{str(result)}", file=output_file)
+        print(f"Result from the packet file:{str(result)}", file=output_file)
         print("----" * 40, file=output_file)
 
 # Example usage:
