@@ -2,7 +2,7 @@
 This module provides functions for initializing, generating responses with and without classifiers from a hugging face model.
 """
 import torch.cuda
-from transformers import pipeline, AutoModelForCausalLM
+from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 
 
 def initialize_classifier(hugging_face_model_name, model_type, token):
@@ -19,12 +19,16 @@ def initialize_classifier(hugging_face_model_name, model_type, token):
     try:
         print(f"Loading:{hugging_face_model_name} ")
         print(f"GPU Being Used: {torch.cuda.is_available()}")
+        tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf",
+                                                  cache_dir="./data_model",
+                                                  trust_remote_code=True,
+                                                  use_auth_token=True, )
 
         model = AutoModelForCausalLM.from_pretrained(hugging_face_model_name,
                                                      trust_remote_code=True,
                                                      use_auth_token=True,
                                                      cache_dir="./data_model")
-        return pipeline(task=model_type, model=model)
+        return pipeline(task=model_type, model=model, tokenizer=tokenizer)
     except Exception as e:
         print(f"Error initializing {hugging_face_model_name}: {e}")
         return None
