@@ -20,7 +20,7 @@ def initialize_classifier(hugging_face_model_name, model_type, token):
         print(f"Loading:{hugging_face_model_name} ")
         print(f"GPU Being Used: {torch.cuda.is_available()}")
         tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf",
-                                                  cache_dir="./data_model",
+                                                  cache_dir="/tmp/nitin/data_model",
                                                   trust_remote_code=True,
                                                   use_auth_token=True, )
 
@@ -28,7 +28,7 @@ def initialize_classifier(hugging_face_model_name, model_type, token):
                                                      trust_remote_code=True,
                                                      use_auth_token=True,
                                                      device_map="auto",
-                                                     cache_dir="./data_model")
+                                                     cache_dir="/tmp/nitin/data_model")
         return pipeline(task=model_type, model=model, tokenizer=tokenizer, device_map="auto", )
     except Exception as e:
         print(f"Error initializing {hugging_face_model_name}: {e}")
