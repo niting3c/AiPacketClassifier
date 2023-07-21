@@ -27,8 +27,9 @@ def initialize_classifier(hugging_face_model_name, model_type, token):
         model = AutoModelForCausalLM.from_pretrained(hugging_face_model_name,
                                                      trust_remote_code=True,
                                                      use_auth_token=True,
+                                                     device_map="auto",
                                                      cache_dir="./data_model")
-        return pipeline(task=model_type, model=model, tokenizer=tokenizer)
+        return pipeline(task=model_type, model=model, tokenizer=tokenizer, device_map="auto", )
     except Exception as e:
         print(f"Error initializing {hugging_face_model_name}: {e}")
         return None
