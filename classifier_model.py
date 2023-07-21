@@ -1,7 +1,7 @@
 """
 This module provides functions for generating responses with classifier from a hugging face model.
 """
-candidate_labels = ['malicious', 'not-malicious', 'attack', 'normal']
+candidate_labels = ['malicious', 'not-malicious']
 
 
 def pipe_response_generate_with_classifier(initialised_model, classifier_input_str):
