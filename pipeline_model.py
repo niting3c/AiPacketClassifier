@@ -19,7 +19,7 @@ def initialize_classifier(hugging_face_model_name, model_type, token):
     try:
         print(f"Loading:{hugging_face_model_name} ")
         print(f"GPU Being Used: {torch.cuda.is_available()}")
-        tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-chat-hf",
+        tokenizer = AutoTokenizer.from_pretrained(hugging_face_model_name,
                                                   cache_dir="/tmp/nitin/data_model",
                                                   trust_remote_code=True,
                                                   use_auth_token=True, )
