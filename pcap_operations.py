@@ -2,144 +2,117 @@ import json
 import os
 
 from scapy.all import rdpcap
-from transformers import Conversation
 
-import PromptMaker
 import llm_model
-from llm_model import prepare_input_strings
-from utils import ModelType
+import models
+import utils
 from utils import create_result_file_path
 
 
-def process_files(directory, model_entry):
-    """
-    Processes all pcap files in the specified directory.
+class PCAP_OPERATIONS:
 
-    Args:
-        directory (str): The directory containing pcap files.
-    """
-    try:
-        for root, dirs, files in os.walk(directory):
-            for file_name in files:
-                if file_name.endswith(".pcap"):
-                    file_path = os.path.join(root, file_name)
-                    model_entry["str"] = []
-                    model_entry["chat"] = None
-                    result_file_path = analyse_packet(file_path, model_entry)
-                    send_to_llm_model(result_file_path, model_entry)
-                    print(f"Processed: {file_path}")
-    except Exception as e:
-        print(f"Error processing files: {e}")
+    def process_files(self, model_entry, directory):
+        try:
+            for root, dirs, files in os.walk(directory):
+                for file_name in files:
+                    if file_name.endswith(".pcap"):
+                        file_path = os.path.join(root, file_name)
+                        packet_split, result_file_path = self.analyse_packet(file_path, model_entry)
+                        if packet_split is None or packet_split == 0:
+                            continue
+                        self.send_to_llm_model(result_file_path, model_entry, packet_split)
+                        print(f"Processed: {file_path}")
+        except Exception as e:
+            print(f"Error processing files: {e}")
 
+    def analyse_packet(self, file_path, model_entry):
+        try:
+            model_entry["input_objects"] = []
+            packets = rdpcap(file_path)
+            # only processing first 150 packets based on our truth base
+            packets = packets[:150]
 
-def analyse_packet(file_path, model_entry):
-    """
-    Analyzes a pcap file and extracts packet information for further processing.
+            for i, packet in enumerate(packets):
+                protocol, payload = self.extract_payload_protocol(packet)
+                self.prepare_input_objects(protocol, payload, model_entry, i)
+            return create_result_file_path(file_path, '.txt', "./output/", model_entry["suffix"])
+        except Exception as e:
+            print(f"Error analysing packet: {e}")
 
-    Args:
-        file_path (str): The path to the pcap file.
-        classifier: The classifier model.
-    """
-    try:
-        # Create a path for the result file
-        model_entry["str"] = []
-        packets = rdpcap(file_path)
-        for i, packet in enumerate(packets):
-            protocol, payload = extract_payload_protocol(packet)
-            prepare_input_strings(protocol, payload, model_entry, i)
-        return create_result_file_path(file_path, '.txt', "./output/", model_entry["suffix"])
-    except Exception as e:
-        print(f"Error analysing packet: {e}")
+    def extract_payload_protocol(self, packet):
+        """
+        Extracts payload and protocol from the packet.
 
+        Args:
+            packet: The packet to process.
 
-def extract_payload_protocol(packet):
-    """
-    Extracts payload and protocol from the packet.
-
-    Args:
-        packet: The packet to process.
-
-    Returns:
-        tuple: The payload and protocol.
-    """
-    try:
-        payload = repr(packet.payload)
-        if packet.haslayer('IP'):
-            protocol = "IP"
-        elif packet.haslayer('TCP'):
-            if packet.payload.haslayer('FTP'):
-                protocol = "TCP"
+        Returns:
+            tuple: The payload and protocol.
+        """
+        try:
+            payload = repr(packet.payload)
+            if packet.haslayer('IP'):
+                protocol = "IP"
+            elif packet.haslayer('TCP'):
+                if packet.payload.haslayer('FTP'):
+                    protocol = "TCP"
+                else:
+                    protocol = "TCP"
+            elif packet.haslayer('UDP'):
+                protocol = "UDP"
+            elif packet.haslayer('ICMP'):
+                protocol = "ICMP"
             else:
-                protocol = "TCP"
-        elif packet.haslayer('UDP'):
-            protocol = "UDP"
-        elif packet.haslayer('ICMP'):
-            protocol = "ICMP"
-        else:
-            protocol = "unknown"
-        return protocol, payload
-    except AttributeError:
-        print("Error: Attribute not found in the packet.")
-    except Exception as e:
-        print(f"Error extracting payload and protocol: {e}")
+                protocol = "unknown"
+            return protocol, payload
+        except AttributeError:
+            print("Error: Attribute not found in the packet.")
+        except Exception as e:
+            print(f"Error extracting payload and protocol: {e}")
 
-    return "", ""
+            return "", ""
 
+    def send_to_llm_model(self, filepath, model_entry):
+        if model_entry["model"] is None:
+            print("Model Failed to initialise")
+            return
 
-def send_to_llm_model(filepath, model_entry):
-    model_type = model_entry["type"]
-    if model_entry["model"] is None:
-        print("Model Failed to initialise")
-        return
-    with open(filepath, "w") as output_file:
-        match model_type:
-            case ModelType.CONVERSATIONAL:
-                process_conversational_model(model_entry, output_file)
-            case ModelType.ZERO_SHOT:
-                process_zero_shot_model(model_entry, output_file)
-            case _:
-                model_entry["str"].insert(0, PromptMaker.generate_first_prompt(len(model_entry["str"])))
-                model_entry["str"].append(PromptMaker.generate_text_chat_last_prompt())
-                process_other_model(model_entry, output_file, model_type)
-        output_file.flush()
+        with open(filepath, "w") as output_file:
+            print(f"Using ZERO_SHOT model:{model_entry['model_name']}")
+            for input_object in model_entry["input_objects"]:
+                prompt = utils.generate_prompt(input_object["protocol"], input_object["payload"])
 
+                result = models.Zero_Shot_Models.classify(model_entry["model"], prompt)
 
-def process_conversational_model(model_entry, output_file):
-    print(f"Using Conversational model:{model_entry['model_name']}", file=output_file)
-    model_entry["chat"] = Conversation(PromptMaker.generate_first_prompt(len(model_entry["str"])))
+            result = llm_model.pipe_response_generate_with_classifier(model_entry["model"], model_entry["input_string"])
+            for entry in result:
+                entry["scores"] = [score * 100 for score in entry["scores"]]
+            json_result = json.dumps(result, indent=4)  # 4 spaces indentation for better visibility.
+            print(json_result, file=output_file)
+            output_file.flush()
 
-    # send conversations to model
-    result = model_entry["model"](model_entry["chat"])
-    print(f"Conversations processed:{str(result)}", file=output_file)
-
-    for entry in model_entry["str"]:
-        model_entry["chat"].add_user_input(entry)
-        result = model_entry["model"](model_entry["chat"])
-        print(f"Conversations processed:{str(result)}", file=output_file)
-
-    model_entry["chat"].add_user_input(PromptMaker.generate_text_chat_last_prompt())
-    result = model_entry["model"](model_entry["chat"])
-    print(f"Conversations processed:{str(result)}", file=output_file)
-
-
-def process_zero_shot_model(model_entry, output_file):
-    print(f"Using ZERO_SHOT model:{model_entry['model_name']}")
-    result = llm_model.pipe_response_generate_with_classifier(model_entry["model"], model_entry["str"])
-    for entry in result:
-        entry["scores"] = [score * 100 for score in entry["scores"]]
-    json_result = json.dumps(result, indent=4)  # 4 spaces indentation for better visibility.
-    print(json_result, file=output_file)
-
-
-def process_other_model(model_entry, output_file, model_type):
-    print(f"Using {model_entry['type']} model:{model_entry['model_name']}", file=output_file)
-    for entry in model_entry["str"]:
-        print("----" * 40, file=output_file)
-        print(entry + "\n\n", file=output_file)
-        result = llm_model.pipe_response_generate_without_classifier(model_entry["model"], entry)
-        print(f"Result from the packet file:{str(result)}", file=output_file)
-        print("----" * 40, file=output_file)
-
-# Example usage:
-# classifier = create_pipeline_model()
-# process_files("./inputs/", None, "hi")
+    def prepare_input_objects(self, protocol, payload, model_entry, packet_num):
+        try:
+            if payload is None:
+                print("no payload found")
+            batch_size = model_entry["context_size"]
+            num_batches = len(payload) // batch_size
+            if len(payload) % batch_size:
+                num_batches += 1
+            if num_batches > 1:
+                for i in range(num_batches):
+                    start_index = i * batch_size
+                    end_index = start_index + batch_size
+                    model_entry["input_objects"].append(
+                        {
+                            "packet": packet_num,
+                            "protocol": protocol,
+                            "payload": payload[start_index:end_index],
+                            "split": batch_size,
+                            "current": i
+                        })
+            else:
+                model_entry["input_objects"].append({"protocol": protocol,
+                                                     "payload": payload})
+        except Exception as e:
+            print(f"Error sending to model: {e}")

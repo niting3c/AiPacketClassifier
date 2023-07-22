@@ -16,7 +16,7 @@ def create_result_file_path(file_path, extension=".txt", output_dir="./output/",
     Args:
         file_path (str): The original file path.
         extension (str): The desired file extension for the new file.
-        output_dir (str, optional): The directory for the new file. Defaults to './output/'.
+        output_dir (input_string, optional): The directory for the new file. Defaults to './output/'.
         suffix (str) : The extra folder inside directory for easier segregation
     Returns:
         str: The path for the new file.
@@ -39,3 +39,10 @@ def create_result_file_path(file_path, extension=".txt", output_dir="./output/",
     except Exception as e:
         print(f"Unexpected error: {e}")
         return None
+
+
+def generate_prompt(protocol, payload):
+    return """
+    Protocol: {0}
+    Payload: {1}
+    """.format(protocol, payload)
