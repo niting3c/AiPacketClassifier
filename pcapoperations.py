@@ -16,7 +16,7 @@ class PcapOperations:
     def process_files(self, model_entry, directory):
         try:
             model_entry["model_output"] = {
-                "name": model_entry["model_name"],
+                "name": model_entry["suffix"],
                 "items": []
             }
 

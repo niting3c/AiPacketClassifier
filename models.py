@@ -15,14 +15,12 @@ class ZeroShotModels:
     models = [
         {
             "model": None,
-            "input_string": [],
             "suffix": "DeBERTa",
             "model_name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
             "context_size": 800,
         },
         {
             "model": None,
-            "input_string": [],
             "suffix": "facebook_zero",
             "model_name": "facebook/bart-large-mnli",
             "context_size": 800,
@@ -30,34 +28,29 @@ class ZeroShotModels:
         {
             "model_name": "mosaicml/mpt-7b-8k-instruct",
             "model": None,
-            "input_string": [],
             "suffix": "mpt-7b",
             "context_size": 1600,
         },
         {
             "model_name": "meta-llama/Llama-2-7b-hf",
             "model": None,
-            "input_string": [],
             "suffix": "llama-2-7b",
             "context_size": 3500,
         },
         {
             "model_name": "meta-llama/Llama-2-13b-hf",
             "model": None,
-            "input_string": [],
             "suffix": "llama-2-13b",
             "context_size": 3500,
         },
         {
             "model_name": "tiiuae/falcon-7b-instruct",
             "model": None,
-            "input_string": [],
             "suffix": "falcon-7b",
             "context_size": 1600,
         },
         {
             "model": None,
-            "input_string": [],
             "suffix": "vicuna",
             "model_name": "mlc-ai/mlc-chat-vicuna-v1-7b-q4f32_0",
             "context_size": 800,
