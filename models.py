@@ -162,7 +162,7 @@ class ZeroShotModels:
             print("Model not initialized")
             return {}
         try:
-            return model(input_strings, self.candidate_labels)
+            return model(input_strings, candidate_labels=self.candidate_labels)
         except Exception as e:
             print(f"Error generating response from classifier: {e}")
             return {}
