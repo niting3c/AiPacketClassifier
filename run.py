@@ -9,7 +9,6 @@ from pcapoperations import PcapOperations
 # Suppress unnecessary scapy warnings
 logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
 
-
 # Directory containing pcap files to be processed
 
 zeroShotModels = ZeroShotModels()
@@ -43,6 +42,7 @@ finalData = []
 
 for zero_shot in zero_shot_models:
     zero_shot["base_truth"] = excelOperations.read_xlsx()
+    zero_shot["model"] = zeroShotModels.initialise_model(zero_shot["model_name"])
     pcap_operations.process_files(zero_shot, directory)
     finalData.append(zero_shot["model_output"])
     del zero_shot
