@@ -88,7 +88,7 @@ class ZeroShotModels:
         Returns:
             list: List of models with the matching suffix.
         """
-        return [model for model in self.models if model["suffix"] == suffix]
+        return [model for model in self.models if model["suffix"].lower() == suffix.lower()]
 
     def get_models_by_name(self, model_name):
         """
@@ -100,7 +100,7 @@ class ZeroShotModels:
         Returns:
             list: List of models with the matching model name.
         """
-        return [model for model in self.models if model["model_name"] == model_name]
+        return [model for model in self.models if model["model_name"].lower() == model_name.lower()]
 
     def get_all_suffixes(self):
         """
