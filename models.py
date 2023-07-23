@@ -1,5 +1,5 @@
 import torch
-from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
+from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 
 
 class ZeroShotModels:
@@ -155,7 +155,7 @@ class ZeroShotModels:
 
             # Adding debug logs for model initialization
             print("Initializing model...")
-            model = AutoModelForCausalLM.from_pretrained(
+            model = AutoModelForSequenceClassification.from_pretrained(
                 hugging_face_model_name,
                 trust_remote_code=True,
                 use_auth_token=True,
