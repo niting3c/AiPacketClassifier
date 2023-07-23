@@ -1,5 +1,5 @@
 import torch
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
+from transformers import pipeline
 
 
 class ZeroShotModels:
@@ -64,18 +64,7 @@ class ZeroShotModels:
             "suffix": "llama-2-13b",
             "context_size": 3500,
         },
-        {
-            "model_name": "tiiuae/falcon-7b-instruct",
-            "model": None,
-            "suffix": "falcon-7b",
-            "context_size": 1600,
-        },
-        {
-            "model": None,
-            "suffix": "vicuna",
-            "model_name": "mlc-ai/mlc-chat-vicuna-v1-7b-q4f32_0",
-            "context_size": 800,
-        },
+
     ]
 
     def get_models_by_suffix(self, suffix):
@@ -143,31 +132,11 @@ class ZeroShotModels:
             print(f"Loading: {hugging_face_model_name}")
             print(f"GPU Being Used: {torch.cuda.is_available()}")
 
-            # Adding debug logs for tokenizer initialization
-            print("Initializing tokenizer...")
-            tokenizer = AutoTokenizer.from_pretrained(
-                hugging_face_model_name,
-                cache_dir="/tmp/nitin/data_model",
-                trust_remote_code=True,
-                use_auth_token=True
-            )
-            print("Tokenizer initialized.")
-
-            # Adding debug logs for model initialization
-            print("Initializing model...")
-            model = AutoModelForSequenceClassification.from_pretrained(
-                hugging_face_model_name,
-                trust_remote_code=True,
-                use_auth_token=True,
-                cache_dir="/tmp/nitin/data_model"
-            )
-            print("Model initialized.")
-
-            if tokenizer is None or model is None:
-                print(f"Error initializing {hugging_face_model_name}")
-                return None
-
-            return pipeline(task=self.ZERO_SHOT, model=model, tokenizer=tokenizer, device_map="auto")
+            return pipeline(task=self.ZERO_SHOT,
+                            model=hugging_face_model_name,
+                            use_auth_token=True,
+                            trust_remote_code=True,
+                            )
         except Exception as e:
             print(f"Error initializing {hugging_face_model_name}: {e}")
             return None
