@@ -181,17 +181,13 @@ class ZeroShotModels:
             input_strings (str or list): The input string(s) to classify.
 
         Returns:
-            list: The classification results or an empty list if there was an error.
+            score object: The classification results
         """
         if model is None:
             print("Model not initialized")
-            return []
+            return {}
         try:
-            # Adding debug logs for classification
-            print("Classifying input strings...")
-            results = model(input_strings, self.candidate_labels)
-            print("Input strings classified.")
-            return results
+            return model(input_strings, self.candidate_labels)
         except Exception as e:
             print(f"Error generating response from classifier: {e}")
-            return []
+            return {}
