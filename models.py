@@ -63,6 +63,17 @@ class ZeroShotModels:
             "model": None,
             "suffix": "llama-2-13b",
             "context_size": 3500,
+        }, {
+            "model_name": "tiiuae/falcon-7b-instruct",
+            "model": None,
+            "suffix": "falcon-7b",
+            "context_size": 1600,
+        },
+        {
+            "model": None,
+            "suffix": "vicuna",
+            "model_name": "mlc-ai/mlc-chat-vicuna-v1-7b-q4f32_0",
+            "context_size": 800,
         },
 
     ]
