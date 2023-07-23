@@ -185,7 +185,7 @@ class ZeroShotModels:
         """
         if model is None:
             print("Model not initialized")
-            return {}
+            return []
         try:
             # Adding debug logs for classification
             print("Classifying input strings...")
@@ -194,4 +194,4 @@ class ZeroShotModels:
             return results
         except Exception as e:
             print(f"Error generating response from classifier: {e}")
-            return {}
+            return []

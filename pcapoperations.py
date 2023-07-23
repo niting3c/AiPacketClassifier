@@ -1,5 +1,7 @@
 import os
+
 from scapy.all import rdpcap
+
 import utils
 from models import ZeroShotModels
 
@@ -106,18 +108,18 @@ class PcapOperations:
         batched_result_aggregation = []
         for input_object in model_entry["input_objects"]:
 
-            packet_num = input_object.get("packet_num",None)
-            protocol = input_object.get("protocol",None)
-            payload = input_object.get("payload",None)
-            split = input_object.get("split",None)
-            batched = input_object.get("batched",None)
+            packet_num = input_object.get("packet_num", None)
+            protocol = input_object.get("protocol", None)
+            payload = input_object.get("payload", None)
+            split = input_object.get("split", None)
+            batched = input_object.get("batched", None)
 
             prompt = utils.generate_prompt(protocol, payload)
-            result = self.zeroShotModels.classify(model_entry["model"], prompt)
+            classify_result = self.zeroShotModels.classify(model_entry["model"], prompt)[0]
 
             # check the scores corresponding to the labels
-            scores = result.get("scores",[])
-            labels = result.get("labels",[])
+            scores = classify_result.get("scores", [])
+            labels = classify_result.get("labels", [])
 
             normal_score = 0
             attack_score = 0
