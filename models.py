@@ -47,15 +47,9 @@ class ZeroShotModels:
             "context_size": 800,
         },
         {
-            "model_name": "mosaicml/mpt-7b",
+            "model_name": "mjwong/e5-large-v2-mnli-anli",
             "model": None,
-            "suffix": "mpt-7b",
-            "context_size": 1600,
-        },
-        {
-            "model_name": "mosaicml/mpt-7b-instruct",
-            "model": None,
-            "suffix": "mpt-7b-2",
+            "suffix": "glue-anli",
             "context_size": 1600,
         },
         {
@@ -72,16 +66,9 @@ class ZeroShotModels:
         }, {
             "model_name": "lmsys/vicuna-7b-v1.3",
             "model": None,
-            "suffix": "falcon-7b",
+            "suffix": "vicuna",
             "context_size": 1600,
         },
-        {
-            "model": None,
-            "suffix": "vicuna",
-            "model_name": "lmsys/vicuna-7b-v1.3",
-            "context_size": 800,
-        },
-
     ]
 
     def get_models_by_suffix(self, suffix):
