@@ -106,18 +106,18 @@ class PcapOperations:
         batched_result_aggregation = []
         for input_object in model_entry["input_objects"]:
 
-            packet_num = input_object["packet_num"]
-            protocol = input_object["protocol"]
-            payload = input_object["payload"]
-            split = input_object["split"]
-            batched = input_object["batched"]
+            packet_num = input_object.get("packet_num",None)
+            protocol = input_object.get("protocol",None)
+            payload = input_object.get("payload",None)
+            split = input_object.get("split",None)
+            batched = input_object.get("batched",None)
 
             prompt = utils.generate_prompt(protocol, payload)
             result = self.zeroShotModels.classify(model_entry["model"], prompt)
 
             # check the scores corresponding to the labels
-            scores = result["scores"]
-            labels = result["labels"]
+            scores = result.get("scores",[])
+            labels = result.get("labels",[])
 
             normal_score = 0
             attack_score = 0
