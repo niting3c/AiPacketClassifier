@@ -112,10 +112,10 @@ class PcapOperations:
             protocol = input_object.get("protocol", None)
             payload = input_object.get("payload", None)
             split = input_object.get("split", None)
-            batched = input_object.get("batched", None)
+            batched = input_object.get("batched", False)
 
             prompt = utils.generate_prompt(protocol, payload)
-            classify_result = self.zeroShotModels.classify(model_entry["model"], prompt)[0]
+            classify_result = self.zeroShotModels.classify(model_entry["model"], prompt)
 
             # check the scores corresponding to the labels
             scores = classify_result.get("scores", [])
@@ -189,7 +189,6 @@ class PcapOperations:
                         })
             else:
                 model_entry["input_objects"].append({"protocol": protocol,
-                                                     "batched": False,
                                                      "packet_num": packet_num,
                                                      "payload": payload})
         except Exception as e:
