@@ -196,7 +196,3 @@ class ZeroShotModels:
         except Exception as e:
             print(f"Error generating response from classifier: {e}")
             return []
-
-
-result = ZeroShotModels().get_models_by_suffix("deBERTa")
-print("result", result)
