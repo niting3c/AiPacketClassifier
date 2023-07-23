@@ -1,13 +1,14 @@
 import os
 
-
 class ModelType:
+    """
+    A class that defines constants for different model types.
+    """
     TEXT_GENERATION = "text-generation"
     ZERO_SHOT = "zero-shot-classification"
     TEXT_TEXT = "text2text-generation"
     CONVERSATIONAL = "conversational"
     TXT_CLASSIFY = "text-classification"
-
 
 def create_result_file_path(file_path, extension=".txt", output_dir="./output/", suffix="model"):
     """
@@ -15,11 +16,12 @@ def create_result_file_path(file_path, extension=".txt", output_dir="./output/",
 
     Args:
         file_path (str): The original file path.
-        extension (str): The desired file extension for the new file.
-        output_dir (input_string, optional): The directory for the new file. Defaults to './output/'.
-        suffix (str) : The extra folder inside directory for easier segregation
+        extension (str, optional): The desired file extension for the new file. Defaults to '.txt'.
+        output_dir (str, optional): The directory for the new file. Defaults to './output/'.
+        suffix (str, optional): The extra folder inside directory for easier segregation. Defaults to "model".
+
     Returns:
-        str: The path for the new file.
+        str: The path for the new file or None if there was an error.
     """
     try:
         # Create the output directory if it doesn't exist
@@ -42,6 +44,16 @@ def create_result_file_path(file_path, extension=".txt", output_dir="./output/",
 
 
 def generate_prompt(protocol, payload):
+    """
+    Generates a prompt string using the provided protocol and payload.
+
+    Args:
+        protocol (str): The protocol string.
+        payload (str): The payload string.
+
+    Returns:
+        str: The generated prompt string.
+    """
     return """
     Protocol: {0}
     Payload: {1}
