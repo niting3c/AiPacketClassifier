@@ -159,7 +159,6 @@ class ZeroShotModels:
                 hugging_face_model_name,
                 trust_remote_code=True,
                 use_auth_token=True,
-                device_map="auto",
                 cache_dir="/tmp/nitin/data_model"
             )
             print("Model initialized.")
