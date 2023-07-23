@@ -47,9 +47,15 @@ class ZeroShotModels:
             "context_size": 800,
         },
         {
-            "model_name": "mosaicml/mpt-7b-8k-instruct",
+            "model_name": "mosaicml/mpt-7b",
             "model": None,
             "suffix": "mpt-7b",
+            "context_size": 1600,
+        },
+        {
+            "model_name": "mosaicml/mpt-7b-instruct",
+            "model": None,
+            "suffix": "mpt-7b-2",
             "context_size": 1600,
         },
         {
@@ -64,7 +70,7 @@ class ZeroShotModels:
             "suffix": "llama-2-13b",
             "context_size": 3500,
         }, {
-            "model_name": "tiiuae/falcon-7b-instruct",
+            "model_name": "lmsys/vicuna-7b-v1.3",
             "model": None,
             "suffix": "falcon-7b",
             "context_size": 1600,
@@ -72,7 +78,7 @@ class ZeroShotModels:
         {
             "model": None,
             "suffix": "vicuna",
-            "model_name": "mlc-ai/mlc-chat-vicuna-v1-7b-q4f32_0",
+            "model_name": "lmsys/vicuna-7b-v1.3",
             "context_size": 800,
         },
 
