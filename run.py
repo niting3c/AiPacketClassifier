@@ -37,7 +37,10 @@ def main():
     else:
         zero_shot_models = zeroShotModels.get_all_models()
 
+    print(f"Processing {len(zero_shot_models)} models")
+
     finalData = []
+
     for zero_shot in zero_shot_models:
         zero_shot["base_truth"] = excelOperations.read_xlsx()
         pcap_operations.process_files(zero_shot, directory)
