@@ -3,8 +3,8 @@ import logging
 import os
 
 from excel_opearations import ExcelOperations
-from models import Zero_Shot_Models
-from pcap_operations import PCAP_OPERATIONS
+from models import ZeroShotModels
+from pcapoperations import PcapOperations
 
 # Suppress unnecessary scapy warnings
 logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
@@ -12,12 +12,11 @@ logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
 
 # Directory containing pcap files to be processed
 def main():
-    zeroShotModels = Zero_Shot_Models()
+    zeroShotModels = ZeroShotModels()
     excelOperations = ExcelOperations()
-    pcap_operations = PCAP_OPERATIONS()
+    pcap_operations = PcapOperations()
     directory = './inputs'
     argParser = argparse.ArgumentParser()
-
 
     argParser.add_argument("-t", "--token", help="Huggingface Auth Token")
     argParser.add_argument("-m", "--model", help="Model Name")
@@ -38,6 +37,11 @@ def main():
     else:
         zero_shot_models = zeroShotModels.get_all_models()
 
+    finalData = []
     for zero_shot in zero_shot_models:
         zero_shot["base_truth"] = excelOperations.read_xlsx()
         pcap_operations.process_files(zero_shot, directory)
+        finalData.append(zero_shot["model_output"])
+        del zero_shot
+
+    excelOperations.create_excel_file(finalData)

@@ -47,7 +47,7 @@ Here are brief descriptions of the main files in this repository:
 
 3. `promptmaker.py`: This script includes functions that generate prompts for the classification tasks. These prompts help guide the AI in its analysis of packets and instruct it on how to report its findings.
 
-4. `pcap_operations.py`: This script contains functions that handle pcap file operations, including reading packets from pcap files, analyzing packets using the zero-shot classification models, and writing the results to an output file.
+4. `pcapoperations.py`: This script contains functions that handle pcap file operations, including reading packets from pcap files, analyzing packets using the zero-shot classification models, and writing the results to an output file.
 
 5. `llm_model.py`: This script includes functions that handle the interaction with the transformer models. It prepares the inputs for the classifier, generates the classifier's response, and processes the response.
 

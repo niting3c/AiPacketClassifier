@@ -2,7 +2,7 @@ import torch
 from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 
 
-class Zero_Shot_Models:
+class ZeroShotModels:
     ZERO_SHOT = "zero-shot-classification"
     ATTACK = "attack"
     NORMAL = "normal"

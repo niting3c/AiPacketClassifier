@@ -3,16 +3,15 @@ import os
 from scapy.all import rdpcap
 
 import utils
-from models import Zero_Shot_Models
+from models import ZeroShotModels
 
 
-class PCAP_OPERATIONS:
+class PcapOperations:
     POSITIVE = "Positive"
     FALSE_POSITIVE = "False Positive"
     FALSE_NEGATIVE = "False Negative"
     NEGATIVE = "Negative"
-    zeroShotModels = Zero_Shot_Models()
-    SCORE_THRESHOLD = 0.3  # 30% threshold
+    zeroShotModels = ZeroShotModels()
 
     def process_files(self, model_entry, directory):
         try:
@@ -46,15 +45,6 @@ class PCAP_OPERATIONS:
             print(f"Error analysing packet: {e}")
 
     def extract_payload_protocol(self, packet):
-        """
-        Extracts payload and protocol from the packet.
-
-        Args:
-            packet: The packet to process.
-
-        Returns:
-            tuple: The payload and protocol.
-        """
         try:
             payload = repr(packet.payload)
             if packet.haslayer('IP'):
@@ -75,7 +65,6 @@ class PCAP_OPERATIONS:
             print("Error: Attribute not found in the packet.")
         except Exception as e:
             print(f"Error extracting payload and protocol: {e}")
-
             return "", ""
 
     def send_to_llm_model(self, model_entry, file_name):
@@ -85,8 +74,9 @@ class PCAP_OPERATIONS:
         item = {"file_name": file_name, "result": []}
         base_truth = model_entry["base_truth"][file_name]  # get the base truth for the file
         print(f"Using ZERO_SHOT model:{model_entry['model_name']}")
-
+        batched_result_aggregation = []
         for input_object in model_entry["input_objects"]:
+
             packet_num = input_object["packet_num"]
             protocol = input_object["protocol"]
             payload = input_object["payload"]
@@ -110,6 +100,16 @@ class PCAP_OPERATIONS:
                     case self.zeroShotModels.ATTACK:
                         attack_score = scores[i]
 
+            if batched:
+                batched_result_aggregation.append((normal_score, attack_score))
+
+                if len(batched_result_aggregation) == split:
+                    normal_score = sum([x[0] for x in batched_result_aggregation]) / split
+                    attack_score = sum([x[1] for x in batched_result_aggregation]) / split
+                    batched_result_aggregation = []
+                else:
+                    continue
+
             attack = False
             actual = False
 
@@ -127,6 +127,7 @@ class PCAP_OPERATIONS:
                 item["result"].append(self.NEGATIVE)
 
         model_entry["model_output"]["items"].append(item)
+
 
     def prepare_input_objects(self, protocol, payload, model_entry, packet_num):
         try:
