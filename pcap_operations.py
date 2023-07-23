@@ -1,26 +1,33 @@
-import json
 import os
 
 from scapy.all import rdpcap
 
-import llm_model
-import models
 import utils
-from utils import create_result_file_path
+from models import Zero_Shot_Models
 
 
 class PCAP_OPERATIONS:
+    POSITIVE = "Positive"
+    FALSE_POSITIVE = "False Positive"
+    FALSE_NEGATIVE = "False Negative"
+    NEGATIVE = "Negative"
+    zeroShotModels = Zero_Shot_Models()
+    SCORE_THRESHOLD = 0.3  # 30% threshold
 
     def process_files(self, model_entry, directory):
         try:
+            model_entry["model_output"] = {
+                "name": model_entry["model_name"],
+                "items": []
+            }
+
             for root, dirs, files in os.walk(directory):
                 for file_name in files:
                     if file_name.endswith(".pcap"):
                         file_path = os.path.join(root, file_name)
-                        packet_split, result_file_path = self.analyse_packet(file_path, model_entry)
-                        if packet_split is None or packet_split == 0:
-                            continue
-                        self.send_to_llm_model(result_file_path, model_entry, packet_split)
+                        self.analyse_packet(file_path, model_entry)
+                        self.send_to_llm_model(model_entry,
+                                               os.path.splitext(os.path.basename(file_path))[0])
                         print(f"Processed: {file_path}")
         except Exception as e:
             print(f"Error processing files: {e}")
@@ -35,7 +42,6 @@ class PCAP_OPERATIONS:
             for i, packet in enumerate(packets):
                 protocol, payload = self.extract_payload_protocol(packet)
                 self.prepare_input_objects(protocol, payload, model_entry, i)
-            return create_result_file_path(file_path, '.txt', "./output/", model_entry["suffix"])
         except Exception as e:
             print(f"Error analysing packet: {e}")
 
@@ -72,24 +78,55 @@ class PCAP_OPERATIONS:
 
             return "", ""
 
-    def send_to_llm_model(self, filepath, model_entry):
+    def send_to_llm_model(self, model_entry, file_name):
         if model_entry["model"] is None:
             print("Model Failed to initialise")
             return
+        item = {"file_name": file_name, "result": []}
+        base_truth = model_entry["base_truth"][file_name]  # get the base truth for the file
+        print(f"Using ZERO_SHOT model:{model_entry['model_name']}")
 
-        with open(filepath, "w") as output_file:
-            print(f"Using ZERO_SHOT model:{model_entry['model_name']}")
-            for input_object in model_entry["input_objects"]:
-                prompt = utils.generate_prompt(input_object["protocol"], input_object["payload"])
+        for input_object in model_entry["input_objects"]:
+            packet_num = input_object["packet_num"]
+            protocol = input_object["protocol"]
+            payload = input_object["payload"]
+            split = input_object["split"]
+            batched = input_object["batched"]
 
-                result = models.Zero_Shot_Models.classify(model_entry["model"], prompt)
+            prompt = utils.generate_prompt(protocol, payload)
+            result = self.zeroShotModels.classify(model_entry["model"], prompt)
 
-            result = llm_model.pipe_response_generate_with_classifier(model_entry["model"], model_entry["input_string"])
-            for entry in result:
-                entry["scores"] = [score * 100 for score in entry["scores"]]
-            json_result = json.dumps(result, indent=4)  # 4 spaces indentation for better visibility.
-            print(json_result, file=output_file)
-            output_file.flush()
+            # check the scores corresponding to the labels
+            scores = result["scores"]
+            labels = result["labels"]
+
+            normal_score = 0
+            attack_score = 0
+
+            for i, label in enumerate(labels):
+                match label:
+                    case self.zeroShotModels.NORMAL:
+                        normal_score = scores[i]
+                    case self.zeroShotModels.ATTACK:
+                        attack_score = scores[i]
+
+            attack = False
+            actual = False
+
+            if attack_score > normal_score:
+                attack = True
+                actual = base_truth[packet_num]
+
+            if attack and actual:
+                item["result"].append(self.POSITIVE)
+            elif attack and not actual:
+                item["result"].append(self.FALSE_POSITIVE)
+            elif not attack and actual:
+                item["result"].append(self.FALSE_NEGATIVE)
+            else:
+                item["result"].append(self.NEGATIVE)
+
+        model_entry["model_output"]["items"].append(item)
 
     def prepare_input_objects(self, protocol, payload, model_entry, packet_num):
         try:
@@ -105,14 +142,16 @@ class PCAP_OPERATIONS:
                     end_index = start_index + batch_size
                     model_entry["input_objects"].append(
                         {
-                            "packet": packet_num,
+                            "packet_num": packet_num,
                             "protocol": protocol,
                             "payload": payload[start_index:end_index],
                             "split": batch_size,
-                            "current": i
+                            "batched": True,
                         })
             else:
                 model_entry["input_objects"].append({"protocol": protocol,
+                                                     "batched": False,
+                                                     "packet_num": packet_num,
                                                      "payload": payload})
         except Exception as e:
             print(f"Error sending to model: {e}")

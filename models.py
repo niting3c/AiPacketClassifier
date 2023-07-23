@@ -4,11 +4,12 @@ from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer
 
 class Zero_Shot_Models:
     ZERO_SHOT = "zero-shot-classification"
+    ATTACK = "attack"
+    NORMAL = "normal"
+
     candidate_labels = [
-        "attack",
-        "not-malicious",
-        "malicious",
-        "normal"
+        ATTACK,
+        NORMAL
     ]
 
     models = [
