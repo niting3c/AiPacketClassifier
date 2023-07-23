@@ -48,3 +48,7 @@ def main():
         del zero_shot
 
     excelOperations.create_excel_file(finalData)
+
+
+if __name__ == "__main__":
+    main()
