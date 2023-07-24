@@ -58,7 +58,7 @@ class ZeroShotModels:
             "suffix": "llama-2-7b",
             "context_size": 3500,
         },
-         {
+        {
             "model_name": "lmsys/vicuna-7b-v1.3",
             "model": None,
             "suffix": "vicuna",
@@ -135,8 +135,8 @@ class ZeroShotModels:
                             model=hugging_face_model_name,
                             use_auth_token=True,
                             trust_remote_code=True,
-                            return_token_type_ids="token_type_ids" in self.tokenizer.model_input_names,
-                            )
+                            device=0 if torch.cuda.is_available() else -1,
+                            torch_dtype=torch.float16 if torch.cuda.is_available() else torch.float32
         except Exception as e:
             print(f"Error initializing {hugging_face_model_name}: {e}")
             return None
