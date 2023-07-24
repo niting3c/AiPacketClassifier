@@ -5,8 +5,6 @@ tokenizer = transformers.LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-h
 
 model = transformers.AutoModelForSequenceClassification.from_pretrained("meta-llama/Llama-2-7b-hf")
 
-
-
 ZERO_SHOT = "zero-shot-classification"
 ATTACK = "attack"
 NORMAL = "normal"
@@ -32,4 +30,7 @@ model.config.zero_shot_classification = True
 model = model.eval()
 model = torch.compile(model)
 
+tokenizer = torch.compile(tokenizer)
+
 model.push_to_hub("niting3c/llama-2-7b-hf-zero-shot", use_auth_token=True)
+tokenizer.push_to_hub("niting3c/llama-2-7b-hf-zero-shot", use_auth_token=True)
