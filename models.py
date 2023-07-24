@@ -53,17 +53,12 @@ class ZeroShotModels:
             "context_size": 1600,
         },
         {
-            "model_name": "meta-llama/Llama-2-7b-hf",
+            "model_name": "niting3c/llama-2-7b-hf-zero-shot",
             "model": None,
             "suffix": "llama-2-7b",
             "context_size": 3500,
         },
-        {
-            "model_name": "meta-llama/Llama-2-13b-hf",
-            "model": None,
-            "suffix": "llama-2-13b",
-            "context_size": 3500,
-        }, {
+         {
             "model_name": "lmsys/vicuna-7b-v1.3",
             "model": None,
             "suffix": "vicuna",
