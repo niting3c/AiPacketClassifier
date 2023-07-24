@@ -135,8 +135,7 @@ class ZeroShotModels:
                             model=hugging_face_model_name,
                             use_auth_token=True,
                             trust_remote_code=True,
-                            id2label={"0": self.ATTACK, "1": self.NORMAL},
-                            label2id={"self.ATTACK": 0, "self.NORMAL": 1}
+                            return_token_type_ids="token_type_ids" in self.tokenizer.model_input_names,
                             )
         except Exception as e:
             print(f"Error initializing {hugging_face_model_name}: {e}")

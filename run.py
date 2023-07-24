@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import os
 
@@ -47,4 +48,8 @@ for zero_shot in zero_shot_models:
     finalData.append(zero_shot["model_output"])
     del zero_shot
 
-excelOperations.create_excel_file(finalData)
+# put the final data in json file
+with open('finalData.json', 'w') as outfile:
+    str = json.dumps(finalData)
+    outfile.write(str)
+

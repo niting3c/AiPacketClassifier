@@ -5,6 +5,8 @@ tokenizer = transformers.LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-h
 
 model = transformers.AutoModelForSequenceClassification.from_pretrained("meta-llama/Llama-2-7b-hf")
 
+
+
 ZERO_SHOT = "zero-shot-classification"
 ATTACK = "attack"
 NORMAL = "normal"
