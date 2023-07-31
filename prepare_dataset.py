@@ -6,8 +6,6 @@ from pcapoperations import PcapOperations
 
 class PrepareData:
     def __init__(self):
-        self.Attack = 0
-        self.Normal = 1
         self.excel_opearations = ExcelOperations()
         self.base_truth = self.excel_opearations.read_xlsx()
         self.processed = []
@@ -20,9 +18,9 @@ class PrepareData:
             for i, res in enumerate(obj["result"]):
                 payload = utils.generate_prompt(res["protocol"], res["payload"])
                 if result_list[i]:
-                    self.processed.append({"text": payload, "label": self.Attack})
+                    self.processed.append({"text": payload, "label": "attack"})
                 else:
-                    self.processed.append({"text": payload, "label": self.Normal})
+                    self.processed.append({"text": payload, "label": "normal"})
 
     def prepare_not_malicious_data(self, data, limit=True):
         # lets keep exactly non-malicious data at 30% and 70% malicious as mix has some non-malicious
@@ -35,8 +33,8 @@ class PrepareData:
             for res in obj["result"]:
 
                 self.processed.append({"text": utils.generate_prompt(res["protocol"],
-                                                                             res["payload"]),
-                                       "label": self.Normal})
+                                                                     res["payload"]),
+                                       "label": "normal"})
                 if limit:
                     count += 1
                     if count >= max_limit:
