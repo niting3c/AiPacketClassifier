@@ -57,6 +57,7 @@ class ZeroShotModels:
             "model": None,
             "suffix": "llama-2-7b",
             "context_size": 3500,
+            "train": []
         },
         {
             "model_name": "lmsys/vicuna-7b-v1.3",

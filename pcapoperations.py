@@ -13,7 +13,7 @@ class PcapOperations:
     NEGATIVE = "Negative"
     zeroShotModels = ZeroShotModels()
 
-    def process_files(self, model_entry, directory):
+    def process_files(self, model_entry, directory, Analysis=True, Limit=True):
         """
         Process all .pcap files in the given directory using the provided model_entry.
 
@@ -21,23 +21,29 @@ class PcapOperations:
             model_entry (dict): The model entry containing model details.
             directory (str): The directory containing the .pcap files to process.
         """
+
         try:
             model_entry["model_output"] = {
                 "name": model_entry["suffix"],
-                "items": []
+                "items": [],
             }
 
             for root, dirs, files in os.walk(directory):
                 for file_name in files:
                     if file_name.endswith(".pcap"):
                         file_path = os.path.join(root, file_name)
-                        self.analyse_packet(file_path, model_entry)
-                        self.send_to_llm_model(model_entry, os.path.splitext(os.path.basename(file_path))[0])
+                        self.analyse_packet(file_path, model_entry, Limit)
+                        entry = os.path.splitext(os.path.basename(file_path))[0]
+
+                        if Analysis:
+                            self.send_to_llm_model(model_entry, entry)
+                        else:
+                            model_entry["train"].append({"file_name": entry, "result": model_entry["input_objects"]})
                         print(f"Processed: {file_path}")
         except Exception as e:
             print(f"Error processing files: {e}")
 
-    def analyse_packet(self, file_path, model_entry):
+    def analyse_packet(self, file_path, model_entry, Limit=True):
         """
         Analyze the packets in the .pcap file and prepare input objects.
 
@@ -49,7 +55,8 @@ class PcapOperations:
             model_entry["input_objects"] = []
             packets = rdpcap(file_path)
             # only processing first 150 packets based on our truth base
-            packets = packets[:150]
+            if Limit:
+                packets = packets[:150]
 
             for i, packet in enumerate(packets):
                 protocol, payload = self.extract_payload_protocol(packet)
@@ -193,3 +200,8 @@ class PcapOperations:
                                                      "payload": payload})
         except Exception as e:
             print(f"Error sending to model: {e}")
+
+# model_entry = {"model": "a"}
+# p = PcapOperations()
+# p.analyse_packet("./inputs/cups_bash_env_exec_attack.pcap", model_entry)
+# print(model_entry)

@@ -1,3 +1,5 @@
+import csv
+
 import pandas as pd
 
 
@@ -24,3 +26,24 @@ class ExcelOperations:
         except Exception as e:
             print(f"Error reading Excel file: {e}")
             return {}
+
+    def write_csv(self, data, csv_file_path="./data/mixed_data.csv"):
+        """
+        Writes data to a CSV file.
+
+        Args:
+            data (list): The data to write to the CSV file.
+        """
+        try:
+            field_names = ["text", "label"]
+            # Write the data to the CSV file
+            with open(csv_file_path, mode='w', newline='', encoding='utf-8') as file:
+                writer = csv.DictWriter(file, fieldnames=field_names)
+                # Write the header row
+                writer.writeheader()
+                # Write the data rows
+                writer.writerows(data)
+            print(f"Data successfully written to {csv_file_path}.")
+
+        except Exception as e:
+            print(f"Error writing CSV file: {e}")
