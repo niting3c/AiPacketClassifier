@@ -10,7 +10,7 @@ candidate_labels = [
     "attack",
     "normal"
 ]
-model_features = Features({'text': Value('string'), 'label': ClassLabel(names=candidate_labels)})
+model_features = Features({'text': Value('string'), 'label': ClassLabel(num_classes=2,names=candidate_labels)})
 OUTPUT_DIR= "test_trainer"
 
 def get_training_args():
