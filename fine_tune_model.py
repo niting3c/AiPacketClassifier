@@ -45,7 +45,7 @@ def get_data_set(from_percent, to_percent, filename, seed=42):
 
 zero_shot = ZeroShotModels()
 model_entry = zero_shot.get_models_by_suffix("llama-2-7b")[0]
-tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"], max_length=512, padding="max_length",
+tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"], max_length=model_entry["context_size"], padding="max_length",
                                           truncation=True)
 
 
