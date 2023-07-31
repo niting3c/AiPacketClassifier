@@ -45,11 +45,12 @@ def get_data_set(from_percent, to_percent, filename, seed=42):
 
 zero_shot = ZeroShotModels()
 model_entry = zero_shot.get_models_by_suffix("llama-2-7b")[0]
-tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"])
+tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"], max_length=512, padding="max_length",
+                                          truncation=True)
 
 
 def tokenize_function(examples):
-    return tokenizer(examples["text"], padding="max_length", truncation=True)
+    return tokenizer(examples["text"])
 
 
 normal_dataset_0_70_train = get_data_set(0, 70, "data/normal.csv")
