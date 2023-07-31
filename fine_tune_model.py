@@ -10,14 +10,24 @@ candidate_labels = [
     "attack",
     "normal"
 ]
-model_features = Features({'text': Value('string'), 'label': ClassLabel(num_classes=2,names=candidate_labels)})
-OUTPUT_DIR= "test_trainer"
+model_features = Features({'text': Value('string'), 'label': ClassLabel(num_classes=2, names=candidate_labels)})
+OUTPUT_DIR = "test_trainer"
+
 
 def get_training_args():
     return TrainingArguments(output_dir=OUTPUT_DIR,
                              logging_strategy="epoch",
                              label_names=candidate_labels,
                              load_best_model_at_end=True,
+                             evaluation_strategy="steps",
+                             eval_steps=50,
+                             warmup_steps=100,
+                             save_steps=50,
+                             do_train=True,
+                             do_eval=True,
+                             do_predict=True,
+                             num_train_epochs=10,
+                             learning_rate=5e-5,
                              )
 
 
@@ -63,18 +73,19 @@ data_collator = DataCollatorForSeq2Seq(
 trainer = Trainer(
     model=model_entry["model"],
     train_dataset=[normal_dataset_0_70_train, mixed_dataset_0_70_train],
-    test_dataset=[normal_dataset_70_90_test, mixed_dataset_70_90_test],
-    eval_dataset=[normal_dataset_validate, mixed_dataset_validate],
+    test_dataset=[normal_dataset_validate, mixed_dataset_validate],
+    eval_dataset=[normal_dataset_70_90_test, mixed_dataset_70_90_test],
     args=get_training_args(),
     data_collator=data_collator
 )
 model_entry["model"].config.use_cache = False
 trainer.train()
 trainer.evaluate()
+trainer.predict([normal_dataset_validate, mixed_dataset_validate])
 
 model_entry["model"].save_pretrained(OUTPUT_DIR)
-
 model = torch.compile(model_entry["model"])
-
 model.push_to_hub("niting3c/llama-2-7b-hf-zero-shot", use_auth_token=True)
+
+tokenizer.save_pretrained(OUTPUT_DIR)
 tokenizer.push_to_hub("niting3c/llama-2-7b-hf-zero-shot", use_auth_token=True)
