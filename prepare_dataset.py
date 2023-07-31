@@ -1,3 +1,5 @@
+from datasets import ClassLabel
+
 import utils
 from excel_opearations import ExcelOperations
 from models import ZeroShotModels
@@ -9,6 +11,7 @@ class PrepareData:
         self.excel_opearations = ExcelOperations()
         self.base_truth = self.excel_opearations.read_xlsx()
         self.processed = []
+        self.classLabel = ClassLabel(num_classes=2, names=["attack", "normal"])
 
     def prepare_mix_data(self, data):
         for obj in data:
@@ -18,9 +21,9 @@ class PrepareData:
             for i, res in enumerate(obj["result"]):
                 payload = utils.generate_prompt(res["protocol"], res["payload"])
                 if result_list[i]:
-                    self.processed.append({"text": payload, "label": "attack"})
+                    self.processed.append({"text": payload, "label": self.classLabel.names.index("attack")})
                 else:
-                    self.processed.append({"text": payload, "label": "normal"})
+                    self.processed.append({"text": payload, "label": self.classLabel.names.index("normal")})
 
     def prepare_not_malicious_data(self, data, limit=True):
         # lets keep exactly non-malicious data at 30% and 70% malicious as mix has some non-malicious
@@ -34,7 +37,7 @@ class PrepareData:
 
                 self.processed.append({"text": utils.generate_prompt(res["protocol"],
                                                                      res["payload"]),
-                                       "label": "normal"})
+                                       "label": self.classLabel.names.index("normal")})
                 if limit:
                     count += 1
                     if count >= max_limit:
