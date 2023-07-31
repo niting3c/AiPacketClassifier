@@ -24,7 +24,6 @@ def get_training_args():
 def get_data_set(from_percent, to_percent, filename, seed=42):
     return load_dataset("niting3c/malicious-packet-analysis",
                         features=model_features,
-                        column_names=['text', 'label'],
                         data_files={"train": filename},
                         split=datasets.ReadInstruction("train",
                                                        from_=from_percent,
