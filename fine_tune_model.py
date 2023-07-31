@@ -31,11 +31,11 @@ def get_training_args():
                              )
 
 
-def get_data_set(from_percent, to_percent, filename, seed=42):
+def get_data_set(from_percent, to_percent, filename, type, seed=42):
     return load_dataset("niting3c/malicious-packet-analysis",
                         features=model_features,
-                        data_files={"train": filename},
-                        split=datasets.ReadInstruction("train",
+                        data_files={type: filename},
+                        split=datasets.ReadInstruction(type,
                                                        from_=from_percent,
                                                        to=to_percent,
                                                        unit="%",
@@ -45,7 +45,8 @@ def get_data_set(from_percent, to_percent, filename, seed=42):
 
 zero_shot = ZeroShotModels()
 model_entry = zero_shot.get_models_by_suffix("llama-2-7b")[0]
-tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"], max_length=model_entry["context_size"], padding="max_length",
+tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"], max_length=model_entry["context_size"],
+                                          padding="max_length",
                                           truncation=True)
 
 
@@ -53,17 +54,17 @@ def tokenize_function(examples):
     return tokenizer(examples["text"])
 
 
-normal_dataset_0_70_train = get_data_set(0, 70, "data/normal.csv")
+normal_dataset_0_70_train = get_data_set(0, 70, "data/normal.csv", "train")
 
-normal_dataset_70_90_test = get_data_set(70, 90, "data/normal.csv")
+normal_dataset_70_90_test = get_data_set(70, 90, "data/normal.csv", "test")
 
-normal_dataset_validate = get_data_set(90, 100, "data/normal.csv")
+normal_dataset_validate = get_data_set(90, 100, "data/normal.csv", "validate")
 
-mixed_dataset_0_70_train = get_data_set(0, 70, "data/mixed_data.csv")
+mixed_dataset_0_70_train = get_data_set(0, 70, "data/mixed_data.csv", "train")
 
-mixed_dataset_70_90_test = get_data_set(70, 90, "data/mixed_data.csv")
+mixed_dataset_70_90_test = get_data_set(70, 90, "data/mixed_data.csv", "test")
 
-mixed_dataset_validate = get_data_set(90, 100, "data/mixed_data.csv")
+mixed_dataset_validate = get_data_set(90, 100, "data/mixed_data.csv", "validate")
 
 model_entry["model"] = AutoModelForSequenceClassification.from_pretrained(model_entry["model_name"], num_labels=2)
 training_args = get_training_args()
@@ -74,8 +75,7 @@ data_collator = DataCollatorForSeq2Seq(
 trainer = Trainer(
     model=model_entry["model"],
     train_dataset=[normal_dataset_0_70_train, mixed_dataset_0_70_train],
-    test_dataset=[normal_dataset_validate, mixed_dataset_validate],
-    eval_dataset=[normal_dataset_70_90_test, mixed_dataset_70_90_test],
+    eval_dataset=[normal_dataset_70_90_test, mixed_dataset_70_90_test, normal_dataset_validate, mixed_dataset_validate],
     args=get_training_args(),
     data_collator=data_collator
 )
