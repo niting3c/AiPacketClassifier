@@ -3,9 +3,7 @@ import transformers
 
 from run import argParser
 
-argParœser.add_argument("-t", "--token", help="Huggingface Auth Token")
-
-
+argParser.add_argument("-t", "--token", help="Huggingface Auth Token")
 tokenizer = transformers.LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 
 model = transformers.AutoModelForSequenceClassification.from_pretrained("meta-llama/Llama-2-7b-hf")
@@ -31,7 +29,6 @@ model.config.label2id = label2id
 model.config.id2label = id2label
 # Convert the model to zero-shot mode
 model.config.zero_shot_classification = True
-
 model = model.eval()
 model = torch.compile(model)
 

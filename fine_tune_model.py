@@ -1,8 +1,8 @@
 import datasets
 import torch
 from datasets import load_dataset, ClassLabel, Features, Value
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, \
-    DataCollatorForSeq2Seq
+from transformers import AutoTokenizer, TrainingArguments, Trainer, \
+    DataCollatorForSeq2Seq, LlamaForSequenceClassification
 
 from models import ZeroShotModels
 
@@ -61,7 +61,7 @@ mixed_dataset_0_90_train = get_data_set(0, 90, "data/mixed_data.csv")
 
 mixed_dataset_validate = get_data_set(90, 100, "data/mixed_data.csv")
 
-model_entry["model"] = AutoModelForSequenceClassification.from_pretrained(model_entry["model_name"], num_labels=2)
+model_entry["model"] = LlamaForSequenceClassification.from_pretrained(model_entry["model_name"], num_labels=2)
 training_args = get_training_args()
 
 data_collator = DataCollatorForSeq2Seq(
