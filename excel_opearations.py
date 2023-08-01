@@ -35,7 +35,7 @@ class ExcelOperations:
             data (list): The data to write to the CSV file.
         """
         try:
-            field_names = ["text", "labels"]
+            field_names = ["text", "label"]
             # Write the data to the CSV file
             with open(csv_file_path, mode='w', newline='', encoding='utf-8') as file:
                 writer = csv.DictWriter(file, fieldnames=field_names)
