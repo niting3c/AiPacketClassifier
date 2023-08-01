@@ -47,7 +47,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"])
 
 
 def tokenize_function(examples):
-    return tokenizer(examples["text"], return_tensor=False, padding=False, truncation=True,
+    return tokenizer(examples["text"], padding=False, truncation=True,
                      max_length=model_entry["context_size"], )
 
 
@@ -65,6 +65,7 @@ training_args = get_training_args()
 data_collator = DataCollatorForSeq2Seq(
     tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
 )
+
 model_entry["model"].config.use_cache = False
 trainer = Trainer(
     model=model_entry["model"],
