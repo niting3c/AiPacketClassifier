@@ -7,6 +7,8 @@ from transformers import LlamaTokenizer, TrainingArguments, Trainer, \
 from models import ZeroShotModels
 model = AutoModelForSequenceClassification.from_pretrained("meta-llama/Llama-2-7b-hf")
 tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
+model.config.pad_token_id = tokenizer.pad_token_id = 0  # unk
+model.config.bos_token_id = 1
 
 candidate_labels = [
     "attack",
@@ -43,7 +45,7 @@ def get_data_set(from_percent, to_percent, filename, seed=42):
 
 
 def tokenize_function(examples):
-    return tokenizer(examples["text"], padding=False, truncation=True,
+    return tokenizer(examples["text"], padding=False, truncation=False,
                        max_length=3600)
 
 
