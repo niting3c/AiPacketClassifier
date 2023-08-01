@@ -31,8 +31,8 @@ def get_training_args():
 def get_data_set(from_percent, to_percent, filename, type, seed=42):
     return load_dataset("niting3c/malicious-packet-analysis",
                         features=model_features,
-                        data_files={type: filename},
-                        split=datasets.ReadInstruction(type,
+                        data_files=filename,
+                        split=datasets.ReadInstruction(split_name=type,
                                                        from_=from_percent,
                                                        to=to_percent,
                                                        unit="%",
@@ -74,7 +74,7 @@ trainer = Trainer(
     train_dataset=[normal_dataset_0_70_train, mixed_dataset_0_70_train],
     eval_dataset=[normal_dataset_70_90_test, mixed_dataset_70_90_test, normal_dataset_validate, mixed_dataset_validate],
     args=get_training_args(),
-    data_collator=data_collator
+    data_collator=data_collator,
 )
 model_entry["model"].config.use_cache = False
 trainer.train()
