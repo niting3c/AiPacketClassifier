@@ -25,6 +25,8 @@ def get_training_args():
                              save_steps=50,
                              num_train_epochs=10,
                              learning_rate=5e-5,
+                             do_train=True,
+                                do_eval=True,
                              )
 
 
@@ -51,15 +53,11 @@ def tokenize_function(examples):
     return tokenizer(examples["text"])
 
 
-normal_dataset_0_70_train = get_data_set(0, 70, "data/normal.csv", "train")
-
-normal_dataset_70_90_test = get_data_set(70, 90, "data/normal.csv", "test")
+normal_dataset_0_90_train = get_data_set(0, 90, "data/normal.csv", "train")
 
 normal_dataset_validate = get_data_set(90, 100, "data/normal.csv", "validate")
 
-mixed_dataset_0_70_train = get_data_set(0, 70, "data/mixed_data.csv", "train")
-
-mixed_dataset_70_90_test = get_data_set(70, 90, "data/mixed_data.csv", "test")
+mixed_dataset_0_90_train = get_data_set(0, 90, "data/mixed_data.csv", "train")
 
 mixed_dataset_validate = get_data_set(90, 100, "data/mixed_data.csv", "validate")
 
@@ -71,15 +69,14 @@ data_collator = DataCollatorForSeq2Seq(
 )
 trainer = Trainer(
     model=model_entry["model"],
-    train_dataset=[normal_dataset_0_70_train, mixed_dataset_0_70_train],
-    eval_dataset=[normal_dataset_70_90_test, mixed_dataset_70_90_test, normal_dataset_validate, mixed_dataset_validate],
+    train_dataset=[normal_dataset_0_90_train, mixed_dataset_0_90_train],
+    eval_dataset=[ normal_dataset_validate, mixed_dataset_validate],
     args=get_training_args(),
     data_collator=data_collator,
 )
 model_entry["model"].config.use_cache = False
 trainer.train()
 trainer.evaluate()
-trainer.predict([normal_dataset_validate, mixed_dataset_validate])
 
 model_entry["model"].save_pretrained(OUTPUT_DIR)
 model = torch.compile(model_entry["model"])
