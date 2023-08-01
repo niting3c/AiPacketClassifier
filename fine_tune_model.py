@@ -46,9 +46,21 @@ model_entry = zero_shot.get_models_by_suffix("llama-2-7b")[0]
 tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"])
 
 
+def generate_prompt(data_point):
+    return f"""
+### Input:
+{data_point["input"]}
+### Response:
+{data_point["output"]}
+"""
+
+
 def tokenize_function(examples):
-    return tokenizer(examples["text"], padding=False, truncation=True,
-                     max_length=model_entry["context_size"], )
+    result = tokenizer(examples["text"], padding=False, truncation=True,
+                       max_length=model_entry["context_size"])
+
+    result["labels"] = result["input_ids"].copy()
+    return result
 
 
 normal_dataset_0_90_train = get_data_set(0, 90, "data/normal.csv")
@@ -67,6 +79,9 @@ data_collator = DataCollatorForSeq2Seq(
 )
 
 model_entry["model"].config.use_cache = False
+model_entry["model"].config.architectures = ["LlamaForSequenceClassification", ""]
+model_entry["model"].config.zero_shot_classification = True
+
 trainer = Trainer(
     model=model_entry["model"],
     train_dataset=normal_dataset_0_90_train,
@@ -77,7 +92,6 @@ trainer = Trainer(
 
 trainer.train()
 trainer.evaluate()
-
 
 trainer = Trainer(
     model=model_entry["model"],

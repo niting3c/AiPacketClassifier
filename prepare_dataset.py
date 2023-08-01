@@ -21,9 +21,9 @@ class PrepareData:
             for i, res in enumerate(obj["result"]):
                 payload = utils.generate_prompt(res["protocol"], res["payload"])
                 if result_list[i]:
-                    self.processed.append({"text": payload, "label": self.classLabel.names.index("attack")})
+                    self.processed.append({"text": payload, "label": "attack"})
                 else:
-                    self.processed.append({"text": payload, "label": self.classLabel.names.index("normal")})
+                    self.processed.append({"text": payload, "label": "normal"})
 
     def prepare_not_malicious_data(self, data, limit=True):
         # lets keep exactly non-malicious data at 30% and 70% malicious as mix has some non-malicious
@@ -37,7 +37,7 @@ class PrepareData:
 
                 self.processed.append({"text": utils.generate_prompt(res["protocol"],
                                                                      res["payload"]),
-                                       "label": self.classLabel.names.index("normal")})
+                                       "label": "normal"})
                 if limit:
                     count += 1
                     if count >= max_limit:

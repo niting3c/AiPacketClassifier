@@ -18,6 +18,7 @@ candidate_labels = [
 ]
 
 model.config.architectures = ["LlamaForSequenceClassification", ""]
+model.config.zero_shot_classification = True
 model.config.pad_token_id = tokenizer.pad_token_id = 0  # unk
 model.config.bos_token_id = 1
 model.config.eos_token_id = 2
@@ -27,8 +28,8 @@ id2label = {i: label for i, label in enumerate(candidate_labels)}
 # Set the model's label mapping
 model.config.label2id = label2id
 model.config.id2label = id2label
-# Convert the model to zero-shot mode
 model.config.zero_shot_classification = True
+# Convert the model to zero-shot mode
 model = model.eval()
 model = torch.compile(model)
 
