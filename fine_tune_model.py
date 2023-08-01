@@ -56,11 +56,8 @@ def generate_prompt(data_point):
 
 
 def tokenize_function(examples):
-    result = tokenizer(examples["text"], padding=False, truncation=True,
+    return tokenizer(examples["text"], padding=False, truncation=True,
                        max_length=model_entry["context_size"])
-
-    result["labels"] = result["input_ids"].copy()
-    return result
 
 
 normal_dataset_0_90_train = get_data_set(0, 90, "data/normal.csv")
