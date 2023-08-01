@@ -30,11 +30,11 @@ def get_training_args():
                              )
 
 
-def get_data_set(from_percent, to_percent, filename, type, seed=42):
+def get_data_set(from_percent, to_percent, filename, seed=42):
     return load_dataset("niting3c/malicious-packet-analysis",
                         features=model_features,
                         data_files=filename,
-                        split=datasets.ReadInstruction(split_name=type,
+                        split=datasets.ReadInstruction("train",
                                                        from_=from_percent,
                                                        to=to_percent,
                                                        unit="%",
@@ -53,13 +53,13 @@ def tokenize_function(examples):
     return tokenizer(examples["text"])
 
 
-normal_dataset_0_90_train = get_data_set(0, 90, "data/normal.csv", "train")
+normal_dataset_0_90_train = get_data_set(0, 90, "data/normal.csv")
 
-normal_dataset_validate = get_data_set(90, 100, "data/normal.csv", "validate")
+normal_dataset_validate = get_data_set(90, 100, "data/normal.csv")
 
-mixed_dataset_0_90_train = get_data_set(0, 90, "data/mixed_data.csv", "train")
+mixed_dataset_0_90_train = get_data_set(0, 90, "data/mixed_data.csv")
 
-mixed_dataset_validate = get_data_set(90, 100, "data/mixed_data.csv", "validate")
+mixed_dataset_validate = get_data_set(90, 100, "data/mixed_data.csv")
 
 model_entry["model"] = AutoModelForSequenceClassification.from_pretrained(model_entry["model_name"], num_labels=2)
 training_args = get_training_args()
