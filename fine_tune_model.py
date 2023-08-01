@@ -2,7 +2,7 @@ import datasets
 import torch
 from datasets import load_dataset, ClassLabel, Features, Value
 from transformers import AutoTokenizer, TrainingArguments, Trainer, \
-    DataCollatorForSeq2Seq, LlamaForSequenceClassification
+    LlamaForSequenceClassification, DataCollatorForSeq2Seq
 
 from models import ZeroShotModels
 
@@ -65,16 +65,26 @@ training_args = get_training_args()
 data_collator = DataCollatorForSeq2Seq(
     tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
 )
+model_entry["model"].config.use_cache = False
 trainer = Trainer(
     model=model_entry["model"],
-    train_dataset=[normal_dataset_0_90_train, mixed_dataset_0_90_train],
-    eval_dataset=[normal_dataset_validate, mixed_dataset_validate],
+    train_dataset=normal_dataset_0_90_train,
+    eval_dataset=normal_dataset_validate,
     args=get_training_args(),
     data_collator=data_collator,
 )
-model_entry["model"].config.use_cache = False
+
 trainer.train()
 trainer.evaluate()
+
+
+trainer = Trainer(
+    model=model_entry["model"],
+    train_dataset=mixed_dataset_0_90_train,
+    eval_dataset=mixed_dataset_validate,
+    args=get_training_args(),
+    data_collator=data_collator,
+)
 
 model_entry["model"].save_pretrained(OUTPUT_DIR)
 model = torch.compile(model_entry["model"])
