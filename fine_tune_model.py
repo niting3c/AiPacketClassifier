@@ -2,7 +2,7 @@ import datasets
 import torch
 from datasets import load_dataset, ClassLabel, Features, Value
 from transformers import AutoTokenizer, TrainingArguments, Trainer, \
-    LlamaForSequenceClassification, DataCollatorForSeq2Seq
+    LlamaForSequenceClassification, DataCollatorForTokenClassification
 
 from models import ZeroShotModels
 
@@ -71,7 +71,7 @@ mixed_dataset_validate = get_data_set(90, 100, "data/mixed_data.csv")
 model_entry["model"] = LlamaForSequenceClassification.from_pretrained(model_entry["model_name"], num_labels=2)
 training_args = get_training_args()
 
-data_collator = DataCollatorForSeq2Seq(
+data_collator = DataCollatorForTokenClassification(
     tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True
 )
 
