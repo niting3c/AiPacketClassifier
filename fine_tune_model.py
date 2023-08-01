@@ -24,9 +24,8 @@ def get_training_args():
                              warmup_steps=100,
                              save_steps=50,
                              num_train_epochs=10,
-                             learning_rate=5e-5,
                              do_train=True,
-                                do_eval=True,
+                             do_eval=True,
                              )
 
 
@@ -44,13 +43,12 @@ def get_data_set(from_percent, to_percent, filename, seed=42):
 
 zero_shot = ZeroShotModels()
 model_entry = zero_shot.get_models_by_suffix("llama-2-7b")[0]
-tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"], max_length=model_entry["context_size"],
-                                          padding="max_length",
-                                          truncation=True)
+tokenizer = AutoTokenizer.from_pretrained(model_entry["model_name"])
 
 
 def tokenize_function(examples):
-    return tokenizer(examples["text"])
+    return tokenizer(examples["text"], return_tensor=False, padding=False, truncation=True,
+                     max_length=model_entry["context_size"], )
 
 
 normal_dataset_0_90_train = get_data_set(0, 90, "data/normal.csv")
@@ -70,7 +68,7 @@ data_collator = DataCollatorForSeq2Seq(
 trainer = Trainer(
     model=model_entry["model"],
     train_dataset=[normal_dataset_0_90_train, mixed_dataset_0_90_train],
-    eval_dataset=[ normal_dataset_validate, mixed_dataset_validate],
+    eval_dataset=[normal_dataset_validate, mixed_dataset_validate],
     args=get_training_args(),
     data_collator=data_collator,
 )
