@@ -2,12 +2,11 @@ import datasets
 import torch
 from datasets import load_dataset, ClassLabel, Features, Value
 from transformers import LlamaTokenizer, TrainingArguments, Trainer, \
-    LlamaForSequenceClassification, DataCollatorForTokenClassification,AutoModelForSequenceClassification
+    DataCollatorForTokenClassification, AutoModelForSequenceClassification
 
-from models import ZeroShotModels
 model = AutoModelForSequenceClassification.from_pretrained("meta-llama/Llama-2-7b-hf")
 tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
-
+tokenizer.add_special_tokens({'pad_token': "-100"})
 
 candidate_labels = [
     "attack",
@@ -15,6 +14,7 @@ candidate_labels = [
 ]
 model_features = Features({'text': Value('string'), 'label': ClassLabel(names=candidate_labels)})
 OUTPUT_DIR = "test_trainer"
+
 
 def get_training_args():
     return TrainingArguments(output_dir=OUTPUT_DIR,
@@ -45,7 +45,7 @@ def get_data_set(from_percent, to_percent, filename, seed=42):
 
 def tokenize_function(examples):
     return tokenizer(examples["text"], padding=False, truncation=False,
-                       max_length=3600)
+                     max_length=3600)
 
 
 normal_dataset_0_90_train = get_data_set(0, 90, "data/normal.csv")
