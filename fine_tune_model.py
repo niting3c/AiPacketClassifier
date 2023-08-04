@@ -28,7 +28,6 @@ def get_data_set( fileNames, seed=42):
                         data_files=fileNames,
                         features=model_features,
                         split="train",
-                        streaming=True,
                         ).map(tokenize_function, batched=True).shuffle(seed=seed)
 
 
