@@ -3,7 +3,12 @@ from datasets import load_dataset
 from transformers import LlamaTokenizer, TrainingArguments, Trainer, AutoModelForSequenceClassification, \
     DataCollatorForTokenClassification
 
+model = AutoModelForSequenceClassification.from_pretrained("togethercomputer/LLaMA-2-7B-32K")
+tokenizer = LlamaTokenizer.from_pretrained("togethercomputer/LLaMA-2-7B-32K")
+
 candidate_labels = ["attack", "normal"]
+
+
 # defining helper functions
 def get_training_args():
     return TrainingArguments(
@@ -21,7 +26,7 @@ def get_training_args():
     )
 
 
-def get_data_set( fileNames, seed=42):
+def get_data_set(fileNames, seed=42):
     model_features = datasets.Features(
         {'text': datasets.Value('string'), 'label': datasets.ClassLabel(names=candidate_labels)})
     return load_dataset("niting3c/malicious-packet-analysis",
@@ -37,13 +42,11 @@ def tokenize_function(examples):
 
 # Prepare datasets
 normal_dataset_train = get_data_set(["normal_netresc/train.csv",
-                                             "network-packet-flow-header-payload/train.json"], 100)
+                                     "network-packet-flow-header-payload/train.json"], 100)
 normal_dataset_validate = get_data_set(["metasploitable-data/test.csv",
-                                               "network-packet-flow-header-payload/test.json"], 100)
+                                        "network-packet-flow-header-payload/test.json"], 100)
 
 # load the model and tokenizer
-model = AutoModelForSequenceClassification.from_pretrained("togethercomputer/LLaMA-2-7B-32K")
-tokenizer = LlamaTokenizer.from_pretrained("togethercomputer/LLaMA-2-7B-32K")
 
 tokenizer.add_special_tokens({'pad_token': "-100"})
 
