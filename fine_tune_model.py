@@ -39,8 +39,8 @@ def tokenize_function(examples):
     return tokenizer(examples["text"], padding=True, truncation=True, max_length=3600)
 
 
-model = AutoModelForSequenceClassification.from_pretrained("meta-llama/Llama-2-7b-hf")
-tokenizer = LlamaTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
+model = AutoModelForSequenceClassification.from_pretrained("togethercomputer/LLaMA-2-7B-32K")
+tokenizer = LlamaTokenizer.from_pretrained("togethercomputer/LLaMA-2-7B-32K")
 tokenizer.add_special_tokens({'pad_token': "-100"})
 
 # Define candidate labels and model config settings
