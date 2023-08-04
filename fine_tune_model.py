@@ -4,8 +4,7 @@ from transformers import LlamaTokenizer, TrainingArguments, Trainer, AutoModelFo
     DataCollatorForTokenClassification
 
 
-
-#defining helper functions
+# defining helper functions
 def get_training_args():
     candidate_labels = ["attack", "normal"]
     return TrainingArguments(
@@ -23,17 +22,14 @@ def get_training_args():
     )
 
 
-def get_data_set(from_percent, to_percent, seed=42):
+def get_data_set(split, fileNames, seed=42):
     model_features = datasets.Features(
         {'text': datasets.Value('string'), 'label': datasets.ClassLabel(names=candidate_labels)})
     return load_dataset("niting3c/malicious-packet-analysis",
+                        data_files=fileNames,
                         features=model_features,
-                        split=datasets.ReadInstruction("train",
-                                                       from_=from_percent,
-                                                       to=to_percent,
-                                                       unit="%",
-                                                       rounding="pct1_dropremainder"),
-                        streaming= True,
+                        split=split,
+                        streaming=True,
                         ).map(tokenize_function, batched=True).shuffle(seed=seed)
 
 
@@ -42,8 +38,10 @@ def tokenize_function(examples):
 
 
 # Prepare datasets
-normal_dataset_train = get_data_set(0, 90)
-normal_dataset_validate = get_data_set(90, 100)
+normal_dataset_train = get_data_set("train",["normal_netresc/train.csv",
+                                             "network-packet-flow-header-payload/train.json"], 100)
+normal_dataset_validate = get_data_set("test",["metasploitable-data/test.csv",
+                                               "network-packet-flow-header-payload/test.json"], 100)
 
 # load the model and tokenizer
 model = AutoModelForSequenceClassification.from_pretrained("togethercomputer/LLaMA-2-7B-32K")
@@ -55,8 +53,6 @@ tokenizer.add_special_tokens({'pad_token': "-100"})
 candidate_labels = ["attack", "normal"]
 model.config.architectures = ["LlamaForSequenceClassification"]
 model.config.zero_shot_classification = True
-
-
 
 # Prepare training arguments and data collator
 training_args = get_training_args()
@@ -79,7 +75,7 @@ try:
 
     # Evaluate and report evaluation results.
     eval_results = trainer.evaluate()
-    #write the eval_results into a output folder for later use
+    # write the eval_results into a output folder for later use
     with open('output/eval_results.txt', 'w') as f:
         print(eval_results, file=f)
     print("Evaluation results on normal dataset:", eval_results)
