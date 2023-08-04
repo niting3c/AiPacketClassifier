@@ -62,29 +62,24 @@ data_collator = DataCollatorForTokenClassification(
 )
 
 # Train and evaluate on the normal dataset
-try:
-    trainer = Trainer(
-        model=model,
-        train_dataset=normal_dataset_train,
-        eval_dataset=normal_dataset_validate,
-        args=training_args,
-        data_collator=data_collator,
-    )
 
-    trainer.train()
-    trainer.save_model()  # Save the model after training.
+trainer = Trainer(
+    model=model,
+    train_dataset=normal_dataset_train,
+    eval_dataset=normal_dataset_validate,
+    args=training_args,
+    data_collator=data_collator,
+)
 
-    # Evaluate and report evaluation results.
-    eval_results = trainer.evaluate()
-    # write the eval_results into a output folder for later use
-    with open('output/eval_results.txt', 'w') as f:
-        print(eval_results, file=f)
-    print("Evaluation results on normal dataset:", eval_results)
+trainer.train()
+trainer.save_model()  # Save the model after training.
 
-except Exception as e:
-    print("An error occurred during training on normal dataset:")
-    print(str(e))
-    exit(1)
+# Evaluate and report evaluation results.
+eval_results = trainer.evaluate()
+# write the eval_results into a output folder for later use
+with open('output/eval_results.txt', 'w') as f:
+    print(eval_results, file=f)
+print("Evaluation results on normal dataset:", eval_results)
 
 # Save the model and tokenizer to Hugging Face Hub.
 model.save_pretrained("test_trainer")
