@@ -3,10 +3,9 @@ from datasets import load_dataset
 from transformers import LlamaTokenizer, TrainingArguments, Trainer, AutoModelForSequenceClassification, \
     DataCollatorForTokenClassification
 
-
+candidate_labels = ["attack", "normal"]
 # defining helper functions
 def get_training_args():
-    candidate_labels = ["attack", "normal"]
     return TrainingArguments(
         output_dir="test_trainer",
         logging_strategy="epoch",
