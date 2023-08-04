@@ -21,13 +21,13 @@ def get_training_args():
     )
 
 
-def get_data_set(split, fileNames, seed=42):
+def get_data_set( fileNames, seed=42):
     model_features = datasets.Features(
         {'text': datasets.Value('string'), 'label': datasets.ClassLabel(names=candidate_labels)})
     return load_dataset("niting3c/malicious-packet-analysis",
                         data_files=fileNames,
                         features=model_features,
-                        split=split,
+                        split="train",
                         streaming=True,
                         ).map(tokenize_function, batched=True).shuffle(seed=seed)
 
@@ -37,9 +37,9 @@ def tokenize_function(examples):
 
 
 # Prepare datasets
-normal_dataset_train = get_data_set("train",["normal_netresc/train.csv",
+normal_dataset_train = get_data_set(["normal_netresc/train.csv",
                                              "network-packet-flow-header-payload/train.json"], 100)
-normal_dataset_validate = get_data_set("test",["metasploitable-data/test.csv",
+normal_dataset_validate = get_data_set(["metasploitable-data/test.csv",
                                                "network-packet-flow-header-payload/test.json"], 100)
 
 # load the model and tokenizer
