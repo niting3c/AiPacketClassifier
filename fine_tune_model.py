@@ -1,13 +1,55 @@
+#
+# !pip install -U pip
+# !pip install appdirs
+# !pip install datasets
+# !pip install fire
+# !pip install -U torch
+# !pip install sentencepiece
+# !pip install tensorboardX
+# !pip install gradio
+# !pip install -U transformers tokenizers
+# !pip install scipy
+# !pip install seaborn
+# !pip install evaluate
+# !pip install -U pytorch-lightning
+# !pip install bitsandbytes
+# !pip install -q huggingface_hub
+# !pip install -q -U trl accelerate peft
+# !pip install -q -U datasets bitsandbytes einops wandb
+
+# !wandb login
+# !cat /root/.netrc
+
+"""IMPORT AND INITIALISE MODEL AND TOKENIZER"""
+
+from huggingface_hub import notebook_login
+
+notebook_login()
+
+# Commented out IPython magic to ensure Python compatibility.
+# %env WANDB_PROJECT=llama-2-7b-hf-zero-shot-no-prompt
+from transformers import AutoModelForCausalLM, BitsAndBytesConfig
+from trl import SFTTrainer
 from datasets import concatenate_datasets
-from datasets import load_dataset
+
 from peft import (
     LoraConfig
 )
-from transformers import AutoModelForCausalLM, BitsAndBytesConfig
-from transformers import AutoTokenizer, TrainingArguments
-from trl import SFTTrainer
 
-model_name = "meta-llama/Llama-2-7b-chat-hf"
+from datasets import load_dataset
+from transformers import AutoTokenizer, TrainingArguments, Trainer
+
+from datasets import load_metric
+
+
+def compute_metrics(eval_pred):
+    metric = load_metric("accuracy", "f1", "glue", "mnli", "recall")
+    logits, labels = eval_pred
+    predictions = np.argmax(logits, axis=-1)
+    return metric.compute(predictions=predictions, references=labels)
+
+
+model_name = "niting3c/llama-2-7b-hf-zero-shot-prompt"
 dataset_name = "niting3c/malicious-packet-analysis"
 new_model = "niting3c/llama-2-7b-hf-zero-shot-prompt"
 lora_r = 64
@@ -35,7 +77,7 @@ warmup_ratio = 0.03
 group_by_length = True
 save_steps = 40
 logging_steps = 40
-max_seq_length = 4096
+max_seq_length = 1600
 packing = False
 device_map = {"": 0}
 
@@ -47,13 +89,12 @@ model_features = datasets.Features(
     {'text': datasets.Value('string'), 'label': datasets.ClassLabel(num_classes=2, names=candidate_labels)})
 
 train_dataset1 = load_dataset("niting3c/malicious-packet-analysis", data_dir='network-packet-flow-header-payload',
-                              split="train", features=model_features).select(range(30000))
+                              split="train", features=model_features).select(range(3000, 7000))
 train_dataset2 = load_dataset("niting3c/malicious-packet-analysis", data_dir='normal_netresc', split="train",
-                              features=model_features).select(range(10000))
+                              features=model_features).select(range(3000, 6000))
 val_dataset = load_dataset("niting3c/malicious-packet-analysis", data_dir='network-packet-flow-header-payload',
-                           split="test", features=model_features).select(range(15000))
+                           split="test", features=model_features).select(range(3000, 6000))
 train_dataset = concatenate_datasets([train_dataset1, train_dataset2])
-
 
 
 def formatting_prompts_func(example):
@@ -88,19 +129,20 @@ if compute_dtype == torch.float16 and use_4bit:
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     quantization_config=bnb_config,
-    device_map=device_map
+    device_map=device_map,
+    num_labels=2
 )
 
 model.config.use_cache = False
 model.config.pretraining_tp = 1
-model.config.architectures = ["LlamaForSequenceClassification"]
-model.config.zero_shot_classification = True
-label2id = {label: i for i, label in enumerate(candidate_labels)}
-id2label = {i: label for i, label in enumerate(candidate_labels)}
+# model.config.architectures = ["LlamaForSequenceClassification"]
+# model.config.zero_shot_classification = True
+# label2id = {label: i for i, label in enumerate(candidate_labels)}
+# id2label = {i: label for i, label in enumerate(candidate_labels)}
 
-# Set the model's label mapping
-model.config.label2id = label2id
-model.config.id2label = id2label
+# # Set the model's label mapping
+# model.config.label2id = label2id
+# model.config.id2label = id2label
 
 tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
@@ -151,9 +193,12 @@ trainer = SFTTrainer(
     args=training_arguments,
     formatting_func=formatting_prompts_func,
     packing=packing,
-
+    compute_metrics=compute_metrics,
 )
 trainer.train()
 
-## F1 Score, Precision , Recall , Accuracy
-tokenizer.push_to_hub("niting3c/llama-2-7b-hf-zero-shot-prompt", use_auth_token=True)
+trainer.evaluate()
+trainer.save_model("./results")
+
+trainer.model.save_pretrained(new_model)
+tokenizer.save_pretrained(new_model)
