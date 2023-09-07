@@ -1,4 +1,5 @@
-from datasets import ClassLabel
+import datasets
+from datasets import Dataset, load_dataset, concatenate_datasets
 
 import utils
 from excel_opearations import ExcelOperations
@@ -11,7 +12,6 @@ class PrepareData:
         self.excel_opearations = ExcelOperations()
         self.base_truth = self.excel_opearations.read_xlsx()
         self.processed = []
-
 
     def prepare_mix_data(self, data):
         for obj in data:
@@ -34,6 +34,9 @@ class PrepareData:
             max_limit = current_payload / 3
         for obj in data:
             for res in obj["result"]:
+                if res["payload"] =='unknown' or res["payload"] == '' or res["payload"] == 'unknown\n' or res[
+                    "payload"] == '\n':
+                    continue
 
                 self.processed.append({"text": utils.generate_prompt(res["protocol"],
                                                                      res["payload"]),
@@ -51,15 +54,25 @@ data = PrepareData()
 zero_shot = ZeroShotModels()
 pcap = PcapOperations()
 model = zero_shot.get_models_by_suffix("llama-2-7b")[0]
-pcap.process_files(model, './inputs/mix_attack_data/', False, True)
-data.prepare_mix_data(model["train"])
-model["input_objects"] = []
-pcap.process_files(model, './inputs/Non-Malicious/', False, False)
-data.prepare_not_malicious_data(model["train"])
 
-data.writeCsv("./data/mixed_data.csv")
+# pcap.process_files(model, './inputs/Non-Malicious/', False, False)
 
 # directly use the non-malicious one already we read
-data.prepare_not_malicious_data(model["train"], False)
+# data.prepare_not_malicious_data(model["train"], False)
+# data.writeCsv("./data/normal.csv")
+# candidate_labels = ["attack", "normal"]
+#
+candidate_labels = ["attack", "normal"]
 
-data.writeCsv("./data/normal.csv")
+dataset = load_dataset('csv', data_files={'test': './data/normal.csv'},features=datasets.Features(
+    {'text': datasets.Value('string'), 'label': datasets.ClassLabel(num_classes=2, names=candidate_labels)}))
+
+
+full_dataset = load_dataset("niting3c/Malicious_packets")
+
+test_data = full_dataset["test"]
+
+new_dataset = concatenate_datasets([full_dataset["test"], dataset["test"]])
+full_dataset["test"] =   new_dataset
+
+full_dataset.push_to_hub("niting3c/Malicious_packets")
