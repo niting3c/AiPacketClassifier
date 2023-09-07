@@ -1,0 +1,63 @@
+(zero) nitin@nitin-virtual-machine:~/AiPacketClassifier$ python fine_tune_model.py  >  run.log
+/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/bitsandbytes/cextension.py:34: UserWarning: The installed version of bitsandbytes was compiled without GPU support. 8-bit optimizers, 8-bit multiplication, and GPU quantization are unavailable.
+  warn("The installed version of bitsandbytes was compiled without GPU support. "
+Loading checkpoint shards: 100%|██████████████████| 2/2 [00:24<00:00, 12.08s/it]
+Some weights of LlamaForSequenceClassification were not initialized from the model checkpoint at togethercomputer/LLaMA-2-7B-32K and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Found cached dataset json (/home/nitin/.cache/huggingface/datasets/niting3c___json/niting3c--malicious-packet-analysis-4e754b9364bd3220/0.0.0/8bb11242116d547c741b2e8a1f18598ffdd40a1d4f2a2872c7a28b697434bc96)
+Loading cached processed dataset at /home/nitin/.cache/huggingface/datasets/niting3c___json/niting3c--malicious-packet-analysis-4e754b9364bd3220/0.0.0/8bb11242116d547c741b2e8a1f18598ffdd40a1d4f2a2872c7a28b697434bc96/cache-f5456d8cb898a397.arrow
+Loading cached shuffled indices for dataset at /home/nitin/.cache/huggingface/datasets/niting3c___json/niting3c--malicious-packet-analysis-4e754b9364bd3220/0.0.0/8bb11242116d547c741b2e8a1f18598ffdd40a1d4f2a2872c7a28b697434bc96/cache-dc253fa6ed0ea13a.arrow
+Found cached dataset json (/home/nitin/.cache/huggingface/datasets/niting3c___json/niting3c--malicious-packet-analysis-e28500c1994a317b/0.0.0/8bb11242116d547c741b2e8a1f18598ffdd40a1d4f2a2872c7a28b697434bc96)
+Loading cached processed dataset at /home/nitin/.cache/huggingface/datasets/niting3c___json/niting3c--malicious-packet-analysis-e28500c1994a317b/0.0.0/8bb11242116d547c741b2e8a1f18598ffdd40a1d4f2a2872c7a28b697434bc96/cache-fcbae5a2dc4df1f0.arrow
+Loading cached shuffled indices for dataset at /home/nitin/.cache/huggingface/datasets/niting3c___json/niting3c--malicious-packet-analysis-e28500c1994a317b/0.0.0/8bb11242116d547c741b2e8a1f18598ffdd40a1d4f2a2872c7a28b697434bc96/cache-95cd541762dc6436.arrow
+[codecarbon INFO @ 01:18:48] [setup] RAM Tracking...
+[codecarbon INFO @ 01:18:48] [setup] GPU Tracking...
+[codecarbon INFO @ 01:18:48] No GPU found.
+[codecarbon INFO @ 01:18:48] [setup] CPU Tracking...
+[codecarbon WARNING @ 01:18:48] No CPU tracking mode found. Falling back on CPU constant mode.
+[codecarbon WARNING @ 01:18:50] We saw that you have a Intel(R) Xeon(R) E-2386G CPU @ 3.50GHz but we don't know it. Please contact us.
+[codecarbon INFO @ 01:18:50] CPU Model on constant consumption mode: Intel(R) Xeon(R) E-2386G CPU @ 3.50GHz
+[codecarbon INFO @ 01:18:50] >>> Tracker's metadata:
+[codecarbon INFO @ 01:18:50]   Platform system: Linux-5.19.0-46-generic-x86_64-with-glibc2.36
+[codecarbon INFO @ 01:18:50]   Python version: 3.9.17
+[codecarbon INFO @ 01:18:50]   CodeCarbon version: 2.2.3
+[codecarbon INFO @ 01:18:50]   Available RAM : 49.011 GB
+[codecarbon INFO @ 01:18:50]   CPU count: 8
+[codecarbon INFO @ 01:18:50]   CPU model: Intel(R) Xeon(R) E-2386G CPU @ 3.50GHz
+[codecarbon INFO @ 01:18:50]   GPU count: None
+[codecarbon INFO @ 01:18:50]   GPU model: None
+  0%|                                               | 0/1484730 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/nitin/AiPacketClassifier/fine_tune_model.py", line 74, in <module>
+    trainer.train()
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/transformers/trainer.py", line 1531, in train
+    return inner_training_loop(
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/transformers/trainer.py", line 1782, in _inner_training_loop
+    for step, inputs in enumerate(epoch_iterator):
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/accelerate/data_loader.py", line 384, in __iter__
+    current_batch = next(dataloader_iter)
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 633, in __next__
+    data = self._next_data()
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/torch/utils/data/dataloader.py", line 677, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    return self.collate_fn(data)
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/transformers/data/data_collator.py", line 45, in __call__
+    return self.torch_call(features)
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/transformers/data/data_collator.py", line 330, in torch_call
+    batch[label_name] = [
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/transformers/data/data_collator.py", line 331, in <listcomp>
+    to_list(label) + [self.label_pad_token_id] * (sequence_length - len(label)) for label in labels
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/site-packages/transformers/data/data_collator.py", line 327, in to_list
+    return list(tensor_or_iterable)
+TypeError: 'int' object is not iterable
+[codecarbon INFO @ 01:19:08] Energy consumed for RAM : 0.000077 kWh. RAM Power : 18.379207134246826 W
+[codecarbon INFO @ 01:19:08] Energy consumed for all CPUs : 0.000177 kWh. Total CPU Power : 42.5 W
+[codecarbon INFO @ 01:19:08] 0.000254 kWh of electricity used since the beginning.
+^CException ignored in: <module 'threading' from '/home/nitin/anaconda3/envs/zero/lib/python3.9/threading.py'>
+Traceback (most recent call last):
+  File "/home/nitin/anaconda3/envs/zero/lib/python3.9/threading.py", line 1477, in _shutdown
+    lock.acquire()
+KeyboardInterrupt: 
+  0%|          | 0/1484730 [00:30<?, ?it/s]                                     
+^C
+
