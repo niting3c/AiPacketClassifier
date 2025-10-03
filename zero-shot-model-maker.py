@@ -36,3 +36,6 @@ model = torch.compile(model)
 
 model.push_to_hub("niting3c/llama-2-7b-hf-zero-shot", use_auth_token=True)
 tokenizer.push_to_hub("niting3c/llama-2-7b-hf-zero-shot", use_auth_token=True)
+
+
+pipeline()
